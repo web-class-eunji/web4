@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>매개변수 아이디 확인</title>
+</head>
+<body>
+    <script>
+        // 전에 했던거 보고 하지 않기!!!
+
+        /*
+        let rightId = "moeunji"
+        let rightPw = 1234
+        검사할 아이디 비번 생성
+
+        login함수에 매개변수로 사용자가 입력한 id와 pw를 받아서 만약 아이디가 rightId와 일치하고, 비밀번호도 rightPw와 일치하면 로그인 되었습니다. 출력
+
+        rightId와 매개변수로 받아온 id값이 다르다면 아이디가 일치하지 않습니다. 출력
+
+        userId,userPw변수를 생성해서 사용자가 입력하는 아이디와 비밀번호를 받아옴
+
+        login함수의 매개변수로 userId,userPw를 전달
+
+        아이디와 비밀번호는 prompt로 받아옴
+        중첩if문 사용
+        */
+
+        let rightId = "moeunji"
+        let rightPw = 1234
+        
+        function login(id,pw){
+            if(rightId == id){
+                if(rightPw == pw){
+                    document.write("로그인이 되었습니다. ");
+                } else {
+                    document.write("비밀번호 오류");
+                }
+            }else{
+                document.write("아이디 오류");
+            }
+        }
+
+        let userId = prompt("아이디를 입력하세요");
+        let userPw = Number(prompt("비밀번호를 작성하세요"));
+
+        login(userId,userPw)
+    </script>
+</body>
+</html>
