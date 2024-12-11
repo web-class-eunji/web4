@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>return</title>
+</head>
+<body>
+    <script>
+        function plus(num1,num2){
+            return num1 + num2;
+            console.log("이 코드는 실행되지 않아요");
+        }
+
+        let result = plus(10,20);
+        console.log(result);
+
+        function hello(name){
+            return "안녕, " + name + "! 반가워!"
+        }
+        let name = hello("은지");
+        name = hello("수명");
+        name = hello("연수");
+        console.log(name)
+    </script>
+</body>
+</html>

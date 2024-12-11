@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>아규먼트 합계</title>
+</head>
+<body>
+    <script>
+        /*
+        sum이라는 함수를 생성
+        안에 total = 0; 이라는 변수를 생성 ( 해당 변수에는 아규먼트가 들어갈것 )
+        반복문을 통해 아규먼트의 개수만틈 반복하는 코드를 작성
+        total에 아규먼트의 n번째 값을 계속 쌓으며 더해준다.
+        아규먼트가 1,2,3,4,5라면 합계 : 15 출력
+        */
+
+        function sum(){
+            let total = 0;
+            for(let i = 0; i < arguments.length;i++){
+                total += arguments[i];
+            }
+            document.write(`합계 : ${total}`);
+        }
+
+        sum(1,2,3,4,5,"<br>");
+        sum(10,20,30,"<br>");
+
+    </script>
+    
+</body>
+</html>

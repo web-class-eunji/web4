@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>return 평균</title>
+</head>
+<body>
+    <script>
+        /*
+        1. classAvg라는 함수를 생성하는데 매개변수 있어야함 (매개변수 : 과목)
+        2. 점수들의 합을 담을 변수를 생성
+        3. 반복문을 돌리는데 매개변수로 받은 값만큼 반복할것
+        4. 반복문을 돌리며 prompt를 사용해서 사용자가 각 과목의 점수를 입력하도록
+        5. 입력한 값은 점수들의 합을 담을 변수에 더해지게 만든다.
+        6. 반복이 끝나면 avg라는 변수를 생성한 후 합을 담은 변수를 과목의 개수로 나눈다
+        7. return avg로 평균을 리턴한다.(함수 작성이 완료됨)
+        8. arrSubject 라는 변수에 원하는 과목이 들어있는 배열을 하나 만든다.
+        9. result라는 변수를 만들어 함수 호출한다.
+        */
+
+        function classAvg(arrData){
+            let sum = 0;
+            for(let i = 0; i < arrData.length;i++){
+               let userScore = Number(prompt(`${arrData[i]} 의 점수를 입력해 주세요`));
+                sum += userScore;
+            }
+            let avg = sum / arrData.length;
+            return avg;
+        }
+
+        let arrSubject = ["국어","영어","수학","역사","과학"];
+        let artSubject = ["음악","미술","체육"];
+        // let result = classAvg(arrSubject);
+        let result = classAvg(artSubject);
+        document.write(`평균 점수는 ${result} 입니다.`);
+    </script>
+
+</body>
+</html>

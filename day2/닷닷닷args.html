@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>...args</title>
+</head>
+<body>
+    <script>
+        function showArgs(...args){
+            console.log(args)
+        }
+        showArgs(1,2,3);
+        showArgs("고양이","강아지","햄스터");
+        showArgs();
+
+        //===================================
+
+        function sum(...args){
+            let total = 0;
+            for(let num of args){
+                total += num;
+            }
+            document.write(`합계 : ${total}`);
+        }
+        sum(10,20);
+        sum(5,5);
+    </script>
+</body>
+</html>
