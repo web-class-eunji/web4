@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>전역변수, 지역변수</title>
+</head>
+<body>
+    <script>
+        let text = "전역변수";
+        function testFunction(){
+            let text = "지역변수";
+            document.write(text,"<br>");
+        }
+        testFunction();
+        document.write(text,"<br>");
+
+        //전역함수
+        function globalFunction(){
+            console.log("나는 전역함수로 어디서나 호출할 수 있어~!");
+        }
+        globalFunction()
+
+        //지역함수
+        function globalFunction2(){
+            function localFunction(){
+                console.log("나는 globalFunction2 안에서만 호출 가능!");
+            }
+            localFunction();
+        }
+        globalFunction2();
+    </script>
+</body>
+</html>

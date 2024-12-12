@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>재귀함수</title>
+</head>
+<body>
+    <script>
+        /*
+        function 재귀함수(매개변수){
+            if(탈출 조건){ // 재귀를 멈출 조건
+                return 결과;
+            }
+            재귀함수(다음 호출의 매개변수); //자신을 호출
+        }
+
+        탈출 조건:  재귀함수가 더이상 자신을 호출하지 않고 멈추는 조건이다.
+        */
+
+        let num = 0;
+        function testFunction(){
+            num++;
+            document.write(num,"<br>");
+
+            if(num === 10){
+                return;
+            } else {
+                testFunction()
+            }
+        }
+        testFunction();
+    </script>
+</body>
+</html>

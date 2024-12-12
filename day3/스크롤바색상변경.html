@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스크롤바색상변경</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .section01 {
+            height: 5000px;
+            background: linear-gradient(#000,#fff);
+        }
+
+        ::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+
+        ::-webkit-scrollbar-track{
+            background-color: rgb(161, 213, 255);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb{
+            background-color: rgb(20, 149, 255);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: rgb(0, 63, 115);
+        }
+    </style>
+</head>
+<body>
+    <section class="section01"></section>
+</body>
+</html>

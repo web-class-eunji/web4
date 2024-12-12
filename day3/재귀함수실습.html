@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>재귀함수 실습</title>
+</head>
+<body>
+    <script>
+        function sum(n){
+            if(n === 1){
+                return 1;
+            }
+            return n + sum(n - 1);
+        }
+        console.log(sum(4));
+    </script>
+</body>
+</html>

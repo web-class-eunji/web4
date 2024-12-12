@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이미지 슬라이드</title>
+    <style>
+        img {
+            width: 400px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <p>
+            <img src="./img/picture_1.jpg" alt="" id="photo">
+        </p>
+        <div>
+            <button onclick="gallery(0)">이전</button>
+            <button onclick="gallery(1)">다음</button>
+        </div>
+    </div>
+    <script>
+        let num = 1;
+        function gallery(direct){
+            if(direct){
+                if(num == 8){
+                    return;
+                } else {
+                    num++;
+                }
+            } else {
+                if(num == 1){
+                    return;
+                } else {
+                    num--;
+                }
+            }
+            let imgTag = document.getElementById("photo");
+            imgTag.setAttribute("src","img/picture_" + num + ".jpg");
+        }
+    </script>
+</body>
+</html>
