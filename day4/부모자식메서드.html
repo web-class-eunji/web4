@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>부모자식 관계 메서드</title>
+</head>
+<body>
+    <div id="parent">
+        <p>1</p>
+        <p>2</p>
+        <p>3</p>
+    </div>
+    <script>
+        /*
+        1. element.parentNode : 부모요소
+        2. element.children : 자식요소들
+        3. element.firstChild : 첫 번째 자식 요소
+        4. element.lastChild : 마지막 자식 요소
+        */
+        const parent = document.getElementById("parent");
+        console.log(parent.children[1]);
+        console.log(parent.firstElementChild);
+        console.log(parent.lastChild);
+
+
+
+
+    </script>
+</body>
+</html>

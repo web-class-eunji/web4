@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>위치관련메서드</title>
+</head>
+
+<body>
+    <!-- innerHeight, innerWidth  -->
+    <button onclick="showWindowSize()">브라우저 크기 보기</button>
+    <p id="window_size"></p>
+
+    <!-- innerHTML -->
+    <div id="content">
+        <p>이 내용이 바뀔거에요!</p>
+    </div>
+    <button onclick="changeContent()">innerHTML 내용 바꾸기</button>
+
+    <!-- textContent -->
+    <div id="text-example">
+        <p>
+            저는
+            <b>
+                고양이
+            </b>
+            를 좋아합니다.
+        </p>
+    </div>
+    <button onclick="showText()">텍스트만 보기</button>
+
+    <br>
+
+    <!-- value -->
+    <input type="text" id="name" value="기본값">
+    <button onclick="updateValue()">값 변경하기</button>
+
+    <!-- offsetHeight,clientHeight,scrollHeight -->
+    <div 
+        id="box"
+        style="
+            width: 200px;
+            height: 100px;
+            padding: 20px;
+            border: 5px solid #000;
+        ">
+        알라알라알라알라알라딘<br>
+        이바보야~ 진짜 아니야~
+    </div>
+    <button onclick="showHeights()">높이 정보</button>
+    <button>너비 정보</button>
+
+    <!-- getBoundingClientRect() -->
+     <div
+        id="target"
+        style="
+            width: 200px;
+            height: 100px;
+            background-color: lightcoral;
+        "
+        >
+        위치와 크기를 확인할 박스
+     </div>
+     <button>박스 정보 보기</button>
+    <script>
+        /*
+        1. 브라우저 창 관련 속성
+            - innerHeight, innerWidth : 브라우저 창(window)의 크기를 다루는 속성이며, 브라우저의 뷰포트(스크롤바와 툴바를 제외한 영역)의 높이와 너비를 나타냄
+        
+        2. HTML요소 내용 관련
+            -   innerHTML : HTML요소 내부의 HTML코드를 읽거나 수정
+                <div>내부의 태그와 텍스트를 모두 포함
+                div.innerHTML = '<b>hello</b>' -> 태그를 포함한 내용을 변경하겠다.
+            -   textContent : HTML요소의 텍스트만 읽거나 수정
+                태그를 제외하고 순수 텍스트만 가져옴
+        
+        3. HTML요소의 크기와 위치 관련 속성
+            -   offsetHeight : 요소의 전체 높이(패딩,보더 포함)
+            -   clientHeight : 요소의 패딩 포함 높이(보더는 제외)
+            -   scrollHeight : 요소의 스크롤 가능한 전체 높이
+            -   getBoundingClientRect() : 요소의 크기와 브라우저 화면에서의 위치정보를 반환
+        */
+
+        //innerHeight, innerWidth
+        function showWindowSize() {
+            const height = window.innerHeight;
+            const width = window.innerWidth;
+            document.getElementById("window_size").textContent = `높이:${height}, 너비:${width}`;
+        }
+
+        //innerHTML
+        function changeContent() {
+            const div = document.getElementById("content");
+            div.innerHTML = "<h1>새로운 내용</h1><p>이제 변경되었습니다!</p>"
+        }
+
+        // textContent
+        function showText() {
+            const div = document.getElementById("text-example");
+            alert(div.textContent);
+        }
+
+        //value:입력 필드의 값을 읽거나 수정한다.
+        function updateValue() {
+            const input = document.getElementById("name");
+            alert(`현재 값 : ${input.value}`);
+            input.value = "새로운 값";
+        }
+
+        //offset,client,scroll
+        function showHeights(){
+            const box = document.getElementById("box");
+            alert(
+                `offsetHeight : ${box.offsetHeight}px \n
+                clientHeight : ${box.clientHeight}px \n
+                scrollHeight : ${box.scrollHeight}px`
+            )
+        }
+    </script>
+</body>
+
+</html>
