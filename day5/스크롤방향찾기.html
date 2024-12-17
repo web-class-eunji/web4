@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스크롤방향찾기</title>
+    <style>
+        body {
+            height: 5000px;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        let posY = 0;
+
+        window.addEventListener('scroll',(e) => {
+            if(posY < window.scrollY){
+                console.log("내렸다");
+                console.log(window.scrollY);
+            }else{
+                console.log("올렸다");
+                //posY > window.scrollY
+                console.log(window.scrollY);
+            }
+            posY = window.scrollY;
+        })
+
+
+    </script>
+</body>
+</html>

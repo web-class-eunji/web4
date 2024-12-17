@@ -12,11 +12,15 @@
     <button onclick="showWindowSize()">브라우저 크기 보기</button>
     <p id="window_size"></p>
 
+    <hr>
+
     <!-- innerHTML -->
     <div id="content">
         <p>이 내용이 바뀔거에요!</p>
     </div>
     <button onclick="changeContent()">innerHTML 내용 바꾸기</button>
+    
+    <hr>
 
     <!-- textContent -->
     <div id="text-example">
@@ -29,12 +33,15 @@
         </p>
     </div>
     <button onclick="showText()">텍스트만 보기</button>
-
+    
+    <hr>
     <br>
 
     <!-- value -->
     <input type="text" id="name" value="기본값">
     <button onclick="updateValue()">값 변경하기</button>
+
+    <hr>
 
     <!-- offsetHeight,clientHeight,scrollHeight -->
     <div 
@@ -49,7 +56,9 @@
         이바보야~ 진짜 아니야~
     </div>
     <button onclick="showHeights()">높이 정보</button>
-    <button>너비 정보</button>
+    <button onclick="showWidths()">너비 정보</button>
+
+    <hr>
 
     <!-- getBoundingClientRect() -->
      <div
@@ -62,7 +71,7 @@
         >
         위치와 크기를 확인할 박스
      </div>
-     <button>박스 정보 보기</button>
+     <button onclick="showRect()">박스 정보 보기</button>
     <script>
         /*
         1. 브라우저 창 관련 속성
@@ -83,26 +92,27 @@
         */
 
         //innerHeight, innerWidth
-        function showWindowSize() {
+        function showWindowSize(){
             const height = window.innerHeight;
+            console.log(height);
             const width = window.innerWidth;
             document.getElementById("window_size").textContent = `높이:${height}, 너비:${width}`;
         }
 
         //innerHTML
-        function changeContent() {
+        function changeContent(){
             const div = document.getElementById("content");
             div.innerHTML = "<h1>새로운 내용</h1><p>이제 변경되었습니다!</p>"
         }
-
+        
         // textContent
-        function showText() {
+        function showText(){
             const div = document.getElementById("text-example");
             alert(div.textContent);
         }
 
         //value:입력 필드의 값을 읽거나 수정한다.
-        function updateValue() {
+        function updateValue(){
             const input = document.getElementById("name");
             alert(`현재 값 : ${input.value}`);
             input.value = "새로운 값";
@@ -116,6 +126,24 @@
                 clientHeight : ${box.clientHeight}px \n
                 scrollHeight : ${box.scrollHeight}px`
             )
+        }
+        
+        function showWidths(){
+            const box = document.getElementById("box");
+            alert(
+                `offsetWidth : ${box.offsetWidth}px \n
+                clientWidth : ${box.clientWidth}px \n
+                scrollWidth : ${box.scrollWidth}px`
+            );
+        }
+
+        
+        //getBoundingClientRect
+        function showRect(){
+            const box = document.getElementById("target");
+            const rect = box.getBoundingClientRect();
+            // x,y,width,height,top,left
+            alert(`위치: x:${rect.x}, y:${rect.y} \n크기:width: ${rect.width}px, height:${rect.height}px\n위치: top:${rect.top}, left:${rect.left} `)
         }
     </script>
 </body>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>요소생성,삭제메서드</title>
+</head>
+<body>
+    <section id="container">
+        <p class="reference">기준이 되는 요소임</p>
+        <p class="old_child">교체될 요소</p>
+        <p class="remove_child">삭제될 요소</p>
+    </section>
+    <script>
+        /*
+        1. createElemet : 새로운 HTML요소를 생성
+            문법 : document.createElemet("태그이름");
+        
+        2. remove / removeChild : HTML요소를 삭제할 때 사용
+            문법 : element.remove() : 요소 자체를 삭제
+                   parent.removeChild(child) : 부모요소에서 자식요소를 삭제
+
+        -----------------------------------------------------------
+
+        요소 추가 메서드
+        1. appendChild : 부모 요소에 자식 요소를 맨 앞에 추가
+            문법 : parent.appendChild(childNode);
+            특징 : 추가할 요소가 이미 다른 곳에 있다면, 그 요소를 새 위치로 이동시킴
+        
+        2. prepend : 부모 요소에 자식 요소를 맨 앞에 추가
+            문법 : parent.prepend(childNode);
+
+        3. insertBefore : 특정 요소 앞에 새 요소를 추가
+            문법 : parent.insertBefore(newNode,referenceNode);
+            newNode : 새로 추가할 노드
+            referenceNode : 새 노드를 추가할 기준이 되는 노드
+
+        4. replaceChild : 기존 자식 요소를 새 요소로 교체
+            문법 : parent.replaceChild(newNode,oldNode);
+            newNode : 새로 교체할 노드
+            oldNode : 교체될 기존 노드
+        */
+       const section = document.getElementById("container");
+
+       //appendChild
+       const newDiv = document.createElement('div');
+       newDiv.textContent = "새로운 div 추가!";
+       section.appendChild(newDiv);
+
+       //prepend
+       const newDiv2 = document.createElement('div');
+       newDiv2.textContent = "맨 앞에 추가된 요소";
+       section.prepend(newDiv2);
+
+       //insertBefore
+       const newDiv3 = document.createElement('div');
+       newDiv3.textContent = '기준이 되는 요소 앞에 추가';
+       const reference = document.getElementsByClassName('reference')[0];
+       section.insertBefore(newDiv3,reference);
+
+       //replaceChild
+       const newDiv4 = document.createElement('div');
+       newDiv4.textContent = '새로운 요소';
+       const oldNode = document.querySelector(".old_child");
+       section.replaceChild(newDiv4,oldNode);
+
+       //removeChild
+    //    const removeChild = document.getElementsByClassName("remove_child")[0];
+    //    section.removeChild(removeChild);
+            // 부모 요소 안에서 요소를 찾아서 삭제
+
+       //remove
+       const removeChild = document.getElementsByClassName("remove_child")[0];
+       removeChild.remove();
+       // 자기 자신을 삭제 
+    </script>
+</body>
+</html>
