@@ -1,0 +1,122 @@
+/* font 시작 */
+@font-face {
+    font-family: 'NanumSquareNeo';
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.eot);
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.eot?#iefix) format("embedded-opentype"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.woff) format("woff"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: 'NanumSquareNeoBold';
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-cBd.eot);
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-cBd.eot?#iefix) format("embedded-opentype"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-cBd.woff) format("woff"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-cBd.ttf) format("truetype");
+}
+
+body {
+    font-family: 'NanumSquareNeo';
+}
+
+/* font 끝 */
+
+
+/* header 시작 */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transition: 0.5s;
+    z-index: 1;
+}
+
+.sign_up_popup {
+    background-color: #be201f;
+    text-align: center;
+    height: 45px;
+    line-height: 45px;
+}
+
+.sign_up_popup > a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    height: 100px;
+    align-items: center;
+    padding: 0 80px;
+}
+
+.menu {
+    display: flex;
+}
+
+.menu > li {
+    margin: 0 16px;
+}
+
+.menu > li > a {
+    font-size: 20px;
+    text-decoration: none;
+    color: #be201f;
+    font-weight: 900;
+}
+
+.menu > li > a::after {
+    content: '';
+    width: 0%;
+    height: 2px;
+    display: block;
+    background: #be201f;
+    margin-top: 10px;
+    transition: 0.5s;
+}
+
+.menu > li:hover a::after {
+    width: 100%;
+}
+
+.logo {
+    width: 550px;
+    text-align: center;
+}
+
+.haeder_icons {
+    display: flex;
+    width: 550px;
+    justify-content: flex-end;
+}
+
+.haeder_icons > li {
+    margin: 0 16px;
+}
+/* header 끝 */
+
+
+/* main_container 시작 */
+.main_container {
+    height: 100vh;
+    position: relative;
+}
+
+.main_background {
+    background-image: url(../img/main_background.png);
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+}
+
+.main_texts {
+    position: absolute;
+    top: 300px;
+    left: 100px;
+    color: #fff;
+}
+
+.main_texts > h2 {
+    font-size: 50px;
+    font-weight: 600;
+    line-height: 65px;
+    margin-bottom: 50px;
+}
