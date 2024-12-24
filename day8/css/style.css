@@ -17,6 +17,19 @@ body {
 
 /* font 끝 */
 
+/* fixed_icons 시작 */
+.fixed_icons {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+}
+
+.fixed_icons > a {
+    display: block;
+    margin: 8px 0;
+}
+/* fixed_icons 끝 */
+
 
 /* header 시작 */
 header {
@@ -120,3 +133,190 @@ header {
     line-height: 65px;
     margin-bottom: 50px;
 }
+/* main_container 끝 */
+
+/* shake_type_container 시작 */
+.shake_type_container {
+    margin-top: 100px;
+}
+
+.shake_plan {
+    display: flex;
+    justify-content: center;
+}
+
+.shake > a > img {
+    width: 550px;
+    margin: 0 24px;
+}
+
+.shake_texts {
+    margin: 16px 24px;
+    color: #be201f;
+}
+
+.shake_name {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.shake_discount {
+    margin: 8px 0 16px 0;
+    font-size: 20px;
+}
+
+.shake_price {
+    color: #e0a8a8;
+    text-decoration: line-through;
+}
+
+.discount_rate {
+    border: 1px solid #be201f;
+    padding: 10px;
+    border-radius: 25px;
+    display: inline-block;
+}
+/* shake_type_container 끝 */
+
+
+/* animation_text_container 시작 */
+.animation_text_container {
+    margin: 100px 0;
+    overflow: hidden;
+}
+
+.animation_text {
+    color: #be201f;
+    font-size: 150px;
+    width: max-content;
+    animation: text_translate_ani 100s infinite linear;
+}
+
+.animation_text_container:hover .animation_text {
+    /* animation-duration: 600s; */
+    animation-play-state: paused;
+    color: #e0a8a8;
+}
+
+@keyframes text_translate_ani {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+/* animation_text_container 끝 */
+
+/* diet_technique_container 시작 */
+
+.diet_technique_container > ul {
+    display: flex;
+    justify-content: center;
+}
+
+.diet_technique_container > ul:first-child {
+    margin-bottom: 50px;
+}
+
+.diet_technique_container > ul > li > img {
+    width: 550px;
+    margin: 0 25px;
+}
+
+.diet_technique_text {
+    color: #be201f;
+    margin: 0 25px;
+    padding: 60px 40px;
+    width: 550px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.diet_technique_text > div > h2 {
+    font-size: 50px;
+    font-weight: 600;
+    margin-bottom: 24px;
+}
+
+.diet_technique_text > div > p {
+    font-size: 20px;
+}
+
+.button {
+    width: fit-content;
+    background: none;
+    border: 1px solid #be201f;
+    padding: 16px 0;
+    border-radius: 50px;
+}
+
+.button > a {
+    color: #be201f;
+    padding: 16px 34px;
+    font-size: 20px;
+    text-decoration: none;
+    border-radius: 50px;
+}
+/* diet_technique_container 끝*/
+
+
+/* identity_container > identity_text 시작 */
+.identity_text {
+    display: flex;
+    justify-content: space-between;
+    padding: 150px 60px;
+    align-items: center;
+}
+
+.identity_text > h2 {
+    font-size: 110px;
+    color: #be201f;
+    line-height: 150px;
+}
+
+.identity_text > h2 > span {
+    border: 2px solid #be201f;
+    padding: 4px 60px 8px 60px;
+    border-radius: 150px;
+}
+
+.identity_text > figure {
+    animation: identity_ani 10s infinite linear;
+}
+
+@keyframes identity_ani {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* identity_container > identity_text 끝 */
+
+
+/* identity_container > identity_content 시작 */
+.identity_content {
+    background-image: url(../img/identity_content_backgroound.png);
+    height: 738px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    text-align: center;
+    gap: 34px;
+}
+
+.identity_content > h2 {
+    font-size: 60px;
+    font-weight: 600;
+}
+
+.identity_content > p {
+    font-size: 20px;
+    line-height: 24px;
+}
+
+/* identity_container > identity_content 끝 */
