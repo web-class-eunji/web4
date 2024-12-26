@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>바닐라슬라이드01</title>
+    <style>
+        .slide_contianer {
+            width: 1000px;
+            height: 500px;
+            border: 3px solid salmon;
+            text-align: center;
+            font-size: 100px;
+            color: salmon;
+            line-height: 500px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
+        .btn_box {
+            width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+        }
+
+        .btn_box button {
+            width: 100px;
+            height: 50px;
+            background: salmon;
+            border: none;
+            font-size: 30px;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide_contianer"></div>
+    <div class="btn_box">
+        <button>prev</button>
+        <button>next</button>
+    </div>
+
+    <script>
+        const viewBox = document.querySelector(".slide_contianer");
+        const btns = document.querySelector(".btn_box");
+        let index = 1; // 초기값
+        viewBox.innerHTML = index;
+        
+
+    </script>
+</body>
+</html>

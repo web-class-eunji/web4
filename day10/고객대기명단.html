@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고객대기명단</title>
+</head>
+<body>
+    <button id="user_name">고객명 입력</button>
+    <button id="user_check">고객 명단 확인</button>
+    <button id="come_in">고객 입장</button>
+
+    <script>
+        /*
+        1. 버튼을 각각 가져온다. - ok
+        2. 대기자 명단을 관리하는 배열을 생성해준다. ( 대기자의 이름이 순서대로 작성될것이다.)
+
+        3. 고객명 입력 버튼을 클릭하여 이름을 입력하면 대기자 명단을 관리하는 새로운 배열에 입력받은 데이터를 추가한다.
+
+        4. 명단확인 버튼을 누르면 대기자 명단을 관리하는 배열에 데이터가 들어있다면 현재 대기자는 이름 이름 이름이며, 총 3명 입니다. 출력
+        5.배열에 대기자가 없다면 대기가 없습니다. 출력
+
+        6. 입장 버튼을 누르면 대기자 명단을 관리하는 배열에 데이터가 들어있다면 제일 먼저 대기중인 손님을 지정해서 ***님 입장합니다. 남은 대기 인원은 *명 입니다 출력
+        7. 대기 인원이 없다면 입장할 손님이 없습니다. 출력
+        */
+
+        const userName = document.getElementById("user_name");
+        const userCheck = document.getElementById("user_check");
+        const comeIn = document.getElementById("come_in");
+        let list = new Array();
+
+        userName.addEventListener("click", function(){
+            list.push(prompt("이름을 입력하세요"));
+            console.log(list);
+        });
+
+        function listChack(){
+            if(list.length){
+                alert(`현재 대기자는 ${list}이며, 총${list.length}명 입니다.`)
+            }else{
+                alert("대기가 없습니다.")
+            }
+        } 
+        userCheck.addEventListener("click",listChack);
+
+        function come(){
+            if(list.length){
+                alert(`${list.shift()}님 입장합니다. 대기 인원은 ${list.length}명 입니다.`);
+            }else {
+                alert("입장할 손님이 없습니다.");
+            }
+        }
+        comeIn.addEventListener("click",come);
+    </script>
+</body>
+</html>
