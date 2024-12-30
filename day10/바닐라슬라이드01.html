@@ -48,6 +48,29 @@
         const btns = document.querySelector(".btn_box");
         let index = 1; // 초기값
         viewBox.innerHTML = index;
+
+        btns.children[0].addEventListener("click",prev);
+        btns.children[1].addEventListener("click",next);
+
+        function prev(){
+            if(index === 1){
+                index = 4;
+            }else{
+                index--;
+            }
+            viewBox.innerHTML = index;
+        }
+
+        function next(){
+            if(index === 4){
+                index = 1;
+            }else{
+                index++;
+            }
+            viewBox.innerHTML = index;
+        }
+
+        
         
 
     </script>

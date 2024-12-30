@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>바닐라슬라이드 최종</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+
+        .slide_container {
+            width: 1000px;
+            height: 500px;
+            font-size: 100px;
+            color: #fff;
+            text-align: center;
+            line-height: 500px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .slide {
+            display: flex;
+            height: 500px;
+            transition: 1s;
+        }
+
+        .slide > li {
+            width: 1000px;
+            height: 500px;
+            list-style: none;
+        }
+
+        .slider_01 {
+            background-color: rgb(230, 255, 206);
+        }
+
+        .slider_02 {
+            background-color: rgb(195, 255, 138);
+        }
+
+        .slider_03 {
+            background-color: rgb(175, 255, 100);
+        }
+
+        .slider_04 {
+            background-color: rgb(145, 227, 69);
+        }
+        
+        .slider_05 {
+            background-color: rgb(107, 197, 23);
+        }
+
+        .slide_btns > button {
+            width: 100px;
+            height: 50px;
+            font-size: 30px;
+            color: #fff;
+            background-color: rgb(145, 255, 42);
+            border: none;
+            cursor: pointer;
+        }
+
+        .slide_btns {
+            width: 1000px;
+            display: flex;
+            justify-content: space-between;
+            margin: 30px auto;
+        }
+
+        .dot_box {
+            display: flex;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgb(195, 255, 138);
+            margin: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide_container">
+        <ul class="slide">
+            <li class="slider_01">1</li>
+            <li class="slider_02">2</li>
+            <li class="slider_03">3</li>
+            <li class="slider_04">4</li>
+            <li class="slider_05">5</li>
+        </ul>
+    </div>
+    <div class="slide_btns">
+        <button>prev</button>
+        <div class="dot_box"></div>
+        <button>next</button>
+    </div>
+
+    <script>
+        const buttons = document.querySelector('.slide_btns');
+        const visiblePart = document.querySelector('.slide_container'); //보여지는부분
+        const slide = document.querySelector('.slide'); //ul
+        const dotBox = document.querySelector('.dot_box'); // 닷이 들어갈 비어있는 div
+        const sliderWidth = 1000;
+        let moveCheck = true;
+
+        //=================================
+
+        const first = slide.firstElementChild.cloneNode(true);
+        //firstElementChild : 현재 요소의 첫 번째 자식 요소를 반환함
+        const last = slide.lastElementChild.cloneNode(true);
+        //lastElementChild : 현재 요소의 마지막 자식요소를 반환
+        //cloneNode(true) : 선택된 요소와 그 모든 자식요소를 복제함
+
+        slide.appendChild(first);
+        // appendChild : 부모 요소에 자식 요소를 맨 마지막에 추가
+        slide.insertBefore(last,slide.firstElementChild);
+        //insertBefore : 특정 요소 앞에 새 노드를 추가
+        // parent.insertBefore(추가할노드,기준노드)
+
+        let sliderLength = slide.childElementCount; //li의 개수
+        console.log(sliderLength); 
+
+        slide.style.width = sliderLength * sliderWidth + 'px'; //ul의 길이 조절
+
+        //========================================
+
+        // 처음 브라우저 열면 보이는 인덱스 설정
+        let index = 1;
+        slide.style.transform = `translateX(-${index * sliderWidth}px)`;
+
+        //========================================
+
+        function moveSlide(time){
+            slide.style.transition = time + 'ms'; // time(1000) -> 1000ms;(1초)
+            slide.style.transform = `translateX(-${index * sliderWidth}px)`;
+        }
+
+        //========================================
+        // 버튼 클릭함수
+        // 버튼 클릭했을 때
+        // buttons.children[0].addEventListener('click', prev);
+        // buttons.children[2].addEventListener('click', next);
+
+        function prev(){
+            if(moveCheck){
+                moveCheck = false;
+                index--;
+            }
+        }
+
+    </script>
+</body>
+</html>

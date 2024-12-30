@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>바닐라슬라이드02</title>
+    <style>
+        .slide_container {
+            /* 보여지는 부분 */
+            width: 1000px;
+            height: 500px;
+            margin: 0 auto;
+            border: 3px solid salmon;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .content_container {
+            width: 4000px;
+            height: 500px;
+            display: flex;
+            padding: 0;
+            margin: 0;
+            transition: 0.5s;
+        }
+
+        .content_container > li {
+            list-style: none;
+            width: 1000px;
+            height: 500px;
+            text-align: center;
+            font-size: 100px;
+            line-height: 500px;
+            color: #fff;
+        }
+
+        .page1 {
+            background-color: rgb(255, 216, 232);
+        }
+        .page2 {
+            background-color: rgb(255, 190, 217);
+        }
+        .page3 {
+            background-color: rgb(255, 161, 200);
+        }
+        .page4 {
+            background-color: rgb(255, 117, 175);
+        }
+
+        .btn_box {
+            width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+        }
+
+        .btn_box button {
+            width: 100px;
+            height: 50px;
+            background: salmon;
+            border: none;
+            font-size: 30px;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide_container">
+        <ul class="content_container">
+            <li class="page1">1</li>
+            <li class="page2">2</li>
+            <li class="page3">3</li>
+            <li class="page4">4</li>
+        </ul>
+    </div>
+    <div class="btn_box">
+        <button>prev</button>
+        <button>next</button>
+    </div>
+
+    <script>
+        const viewBox = document.querySelector('.slide_container');
+        const btns = document.querySelector('.btn_box')
+        let index = 0;
+
+        btns.children[0].addEventListener("click",prev);
+        btns.children[1].addEventListener("click",next);
+
+        function prev(){
+            if(index === 0){
+                index = 3;
+            } else {
+                index--;
+            }
+            viewBox.children[0].style.transform = 'translateX(-'+ (index * 1000)+'px)';
+        }
+
+        function next(){
+            if(index === 3){
+                index = 0;
+            }else{
+                index++;
+            }
+            viewBox.children[0].style.transform = 'translateX(-'+ (index * 1000)+'px)';
+        }
+    </script>
+</body>
+</html>
