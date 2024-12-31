@@ -81,16 +81,35 @@
             background-color: rgb(195, 255, 138);
             margin: 8px;
         }
+
+        .active {
+            background-color: rgb(72, 149, 0);
+        }
+
+        img {
+            width: 1000px;
+            height: 500px;
+        }
     </style>
 </head>
 <body>
     <div class="slide_container">
         <ul class="slide">
-            <li class="slider_01">1</li>
-            <li class="slider_02">2</li>
-            <li class="slider_03">3</li>
-            <li class="slider_04">4</li>
-            <li class="slider_05">5</li>
+            <li class="slider_01">
+                <img src="./햄스터01.jpg" alt="">
+            </li>
+            <li class="slider_02">
+                <img src="./햄스터02.jpg" alt="">
+            </li>
+            <li class="slider_03">
+                <img src="./햄스터03.jpg" alt="">
+            </li>
+            <li class="slider_04">
+                <img src="./햄스터04.webp" alt="">
+            </li>
+            <li class="slider_05">
+                <img src="./햄스터05..jpg" alt="">
+            </li>
         </ul>
     </div>
     <div class="slide_btns">
@@ -137,21 +156,74 @@
         function moveSlide(time){
             slide.style.transition = time + 'ms'; // time(1000) -> 1000ms;(1초)
             slide.style.transform = `translateX(-${index * sliderWidth}px)`;
+            updateDot();
         }
 
         //========================================
         // 버튼 클릭함수
         // 버튼 클릭했을 때
-        // buttons.children[0].addEventListener('click', prev);
-        // buttons.children[2].addEventListener('click', next);
+        buttons.children[0].addEventListener('click', prev);
+        buttons.children[2].addEventListener('click', next);
 
         function prev(){
             if(moveCheck){
                 moveCheck = false;
                 index--;
+                setTimeout(() => {
+                    if(index === 0){
+                        index = sliderLength -2;
+                        moveSlide(0);
+                    }
+                    moveCheck = true;
+                }, 1000); //1초동안 moveCheck를 막음
+                moveSlide(1000);
             }
         }
 
+        function next(){
+            if(moveCheck){
+                moveCheck = false;
+                index++;
+                setTimeout(() => {
+                    if(index === sliderLength -1){
+                        index = 1;
+                        moveSlide(0);
+                    }
+                    moveCheck = true;
+                }, 1000);
+                moveSlide(1000);
+            }
+        }
+
+        //========================================
+        // 닷만들기
+        for(let i = 0; i < sliderLength - 2; i++){
+            const makeDiv = document.createElement('div'); // div 태그생성
+            makeDiv.classList.add('dot');
+            dotBox.appendChild(makeDiv);
+            makeDiv.addEventListener('click', () => {
+                index = i + 1;
+                moveSlide(1000);
+            });
+        }
+        dotBox.children[0].classList.add('active');
+
+        function updateDot(){
+            for(let i = 0; i < sliderLength - 2; i++){
+                dotBox.children[i].classList.remove('active');
+                if(index === 0){
+                    dotBox.children[sliderLength - 3].classList.add('active');
+                } else if(index === sliderLength - 1){
+                    dotBox.children[0].classList.add('active');
+                } else {
+                    dotBox.children[index - 1].classList.add('active');
+                }
+            }
+        }
+
+        setInterval(() => {
+            next();
+        }, 5000);
     </script>
 </body>
 </html>
