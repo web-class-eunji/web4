@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>햄버거메뉴1</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 10000px;
+        }
+
+        .ham_container {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            cursor: pointer;
+            transition: 0.5s;
+            z-index: 999;
+        }
+
+        .hamburger {
+            width: 40px;
+            height: 3px;
+            background-color: black;
+            position: relative;
+            margin: 16px 0;
+            transition: 0.5s;
+        }
+        
+        .hamburger::before,
+        .hamburger::after {
+            content: '';
+            width: 40px;
+            height: 3px;
+            display: block;
+            background-color: black;
+            position: absolute;
+            left: 0;
+            transition: 0.5s;
+        }
+
+        .hamburger::before {
+            top: -10px;
+        }
+
+        .hamburger::after {
+            top: 10px;
+        }
+
+        .ham_container.active {
+            /* transform: translateX(-300px); */
+
+        }
+
+        .hamburger.active {
+            background-color: transparent;
+        }
+
+        .hamburger.active::before,
+        .hamburger.active::after {
+            transform: rotate(-45deg);
+            background-color: #fff;
+            top: 0;
+        }
+
+        .hamburger.active::after {
+            transform: rotate(45deg);
+        }
+
+        .menu {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100%;
+            background-color: rgb(44, 44, 44);
+            padding: 0;
+            margin: 0;
+            transition: 0.5s;
+        }
+
+        .menu.active {
+            right: 0;
+        }
+
+        .menu > li {
+            list-style: none;
+            padding: 16px;
+        }
+
+        .menu > li > a {
+            color: #fff;
+            font-size: 20px;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="ham_container">
+        <div class="hamburger"></div>
+    </div>
+
+    <ul class="menu">
+        <li>
+            <a href="">About</a>
+        </li>
+        <li>
+            <a href="">History</a>
+        </li>
+        <li>
+            <a href="">Contact</a>
+        </li>
+    </ul>
+
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const hamContainer = document.querySelector('.ham_container');
+        const menu = document.querySelector('.menu');
+
+        // hamContainer.addEventListener("click", () => {
+        //     hamburger.classList.toggle("active");
+        //     menu.classList.toggle("active");
+        //     hamContainer.classList.toggle("active");
+        //     // toggle : html요소의 특정 클래스를 추가하거나 제거한다. 해당 클래스가 이미 요소에 적용되어 있다면 제거하고 없다면 추가한다.
+        //     //토글은 두가지 상태만을 가지고 제어한다.
+        // });
+
+        let isMenuOpen = true;
+        hamContainer.addEventListener("click", () => {
+            if(isMenuOpen){
+                hamburger.classList.add("active");
+                menu.classList.add("active");
+                hamContainer.classList.add("active");
+            } else {
+                hamburger.classList.remove("active");
+                menu.classList.remove("active");
+                hamContainer.classList.remove("active");
+            }
+            isMenuOpen = !isMenuOpen // 반전
+        });
+    </script>
+</body>
+</html>
