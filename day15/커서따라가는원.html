@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>커서따라가는원</title>
+    <style>
+        .cursor {
+            width: 15px;
+            height: 15px;
+            background-color: coral;
+            border-radius: 50%;
+            transition: 0.1s;
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor"></div>
+
+    <script>
+        const cursor = document.querySelector(".cursor");
+
+        document.addEventListener("mousemove", (e) => {
+            cursor.style.transform = `translate(${e.pageX}px, ${e.pageY}px)`;
+            console.log(`x : ${e.pageX}`);
+            console.log(`y : ${e.pageY}`);
+        });
+
+        //mousedown 사용해서 원 1.5배 증가시키기
+        document.addEventListener("mousedown", () => {
+            cursor.style.transform += `scale(1.5)`;
+        });
+
+        document.addEventListener("mouseup", () => {
+            cursor.style.transform = cursor.style.transform.replace("scale(1.5)","");
+            //replace("제거할 값","새로 넣을 값") : 문자열에서 특정 부분을 찾아 다른 문자열로 대체하는 메서드
+        });
+
+    </script>
+</body>
+</html>
