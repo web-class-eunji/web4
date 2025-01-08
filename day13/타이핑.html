@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,6 +29,7 @@
         }
     </style>
 </head>
+
 <body>
     <div id="typing"></div>
 
@@ -43,11 +45,11 @@
 
         const typingElement = document.getElementById("typing");
         const typing = () => {
-            if(charIndex < texts[textIndex].length){
+            if (charIndex < texts[textIndex].length) {
                 typingElement.textContent += texts[textIndex][charIndex];
                 charIndex++;
-                setTimeout(typing,150);
-            }else{
+                setTimeout(typing, 150);
+            } else {
                 setTimeout(() => {
                     typingElement.textContent = ""; //초기화 
                     charIndex = 0;
@@ -57,10 +59,11 @@
                     //네번째 문장 : (3 + 1) % 4 = 0 | textIndex = 0;
                     textIndex = (textIndex + 1) % texts.length;
                     typing(); // 다음 문장 타이핑 시작
-                },1000);
+                }, 1000);
             }
         };
         typing();
     </script>
 </body>
+
 </html>
