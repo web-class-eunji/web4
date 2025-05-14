@@ -92,8 +92,8 @@
             // array : 현재 순회중인 배열 자체(선택)
             // });
             tab.addEventListener('click',() => {
-                // tabs.forEach(t => t.classList.remove('active'));
-                tab.classList.remove('active');
+                tabs.forEach(t => t.classList.remove('active'));
+                // tab.classList.remove('active');
                 tabContnet.forEach(tc => tc.classList.remove('active'));
                 tab.classList.add('active');
                 document.getElementById('tab_' + tab.dataset.tab).classList.add('active');
