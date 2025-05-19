@@ -120,24 +120,22 @@
         const hamContainer = document.querySelector('.ham_container');
         const menu = document.querySelector('.menu');
 
-        // hamContainer.addEventListener("click", () => {
-        //     hamburger.classList.toggle("active");
-        //     menu.classList.toggle("active");
-        //     hamContainer.classList.toggle("active");
-        //     // toggle : html요소의 특정 클래스를 추가하거나 제거한다. 해당 클래스가 이미 요소에 적용되어 있다면 제거하고 없다면 추가한다.
-        //     //토글은 두가지 상태만을 가지고 제어한다.
-        // });
+        hamContainer.addEventListener("click", () => {
+            hamburger.classList.toggle("active");
+            menu.classList.toggle("active");
+            // hamContainer.classList.toggle("active");
+            // toggle : html요소의 특정 클래스를 추가하거나 제거한다. 해당 클래스가 이미 요소에 적용되어 있다면 제거하고 없다면 추가한다.
+            //토글은 두가지 상태만을 가지고 제어한다.
+        });
 
         let isMenuOpen = true;
         hamContainer.addEventListener("click", () => {
             if(isMenuOpen){
                 hamburger.classList.add("active");
                 menu.classList.add("active");
-                hamContainer.classList.add("active");
             } else {
                 hamburger.classList.remove("active");
                 menu.classList.remove("active");
-                hamContainer.classList.remove("active");
             }
             isMenuOpen = !isMenuOpen // 반전
         });
