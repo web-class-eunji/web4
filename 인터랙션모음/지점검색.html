@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>지점검색</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .map_section {
+            display: flex;
+            background-color: rgb(37, 121, 73);
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            gap: 60px;
+            color: #fff;
+        }
+
+        .left>p {
+            font-size: 24px;
+        }
+
+        .left>h1 {
+            font-size: 60px;
+            margin: 0;
+        }
+
+        .right {
+            width: 300px;
+        }
+
+        .right>h2 {
+            font-size: 32px;
+            margin: 0;
+        }
+
+        .search_icon,
+        .search_icon>img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .search_icon,
+        .input {
+            margin: 0;
+            padding: 0;
+            border: none;
+            background: none;
+            outline: none;
+            color: #fff;
+        }
+
+        .input_box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #fff;
+            padding: 4px 16px;
+            margin-top: 32px;
+            border-radius: 8px;
+        }
+
+        .map {
+            border-radius: 16px;
+        }
+
+        input::placeholder {
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="map_section">
+        <div class="left">
+            <p>반짝반짝 빛나는 커피 드실텨?</p>
+            <h1>Starbucks Korea</h1>
+            <iframe class="map"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6330.853407365337!2d127.01905979357909!3d37.49785299999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca159effab6a1%3A0x2c7fcbe64938c1ad!2z7Iqk7YOA67KF7IqkIOqwleuCqFLsoJA!5e0!3m2!1sko!2skr!4v1747841868031!5m2!1sko!2skr"
+                width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+        <div class="right">
+            <h2>지점 찾기</h2>
+            <div class="input_box">
+                <input id="input_text" class="input" type="text" placeholder="지역을 입력하세요">
+                <button class="search_icon">
+                    <img src="./검색아이콘.png" alt="">
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const inputText = document.getElementById("input_text");
+        let btn = document.querySelector(".search_icon");
+        btn.addEventListener("click", input);
+        window.addEventListener("keyup", (e) => {
+            if (e.key == "Enter" && inputText === document.activeElement) {
+                //inputText === document.activeElement (활성화된게 inputText 일때 엔터를 누르면 먹음(inputText 없으면 안 먹음))
+                input();
+            }
+        });
+    </script>
+</body>
+
+</html>
