@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Repeatable Count Up</title>
+  <style>
+    body {
+      height: 2000px;
+      margin: 0;
+      font-family: sans-serif;
+      background: #111;
+      color: #fff;
+    }
+
+    .counter-section {
+      margin-top: 100vh;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      padding: 80px 0;
+    }
+
+    .counter-box {
+      text-align: center;
+    }
+
+    .number {
+      font-size: 60px;
+      color: #00f2ff;
+    }
+
+    .label {
+      margin-top: 10px;
+      font-size: 18px;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="counter-section">
+    <div class="counter-box">
+      <div class="number" data-target="1500">0</div>
+      <div class="label">Projects</div>
+    </div>
+    <div class="counter-box">
+      <div class="number" data-target="240">0</div>
+      <div class="label">Clients</div>
+    </div>
+    <div class="counter-box">
+      <div class="number" data-target="98">0</div>
+      <div class="label">Satisfaction %</div>
+    </div>
+  </div>
+
+  <script>
+    const counters = document.querySelectorAll('.number');
+
+    function animateCounter(counter) {
+      counter.innerText = '0';
+      const target = +counter.getAttribute('data-target');
+      let current = 0;
+
+      const update = () => {
+        const increment = target / 100;
+        if (current < target) {
+          current += increment;
+          counter.innerText = Math.ceil(current);
+          requestAnimationFrame(update);
+        } else {
+          counter.innerText = target.toLocaleString();
+        }
+      };
+
+      update();
+    }
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounter(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.6,
+    });
+
+    counters.forEach(counter => {
+      observer.observe(counter);
+    });
+  </script>
+
+</body>
+</html>
