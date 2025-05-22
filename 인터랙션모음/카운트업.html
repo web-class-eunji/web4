@@ -52,15 +52,15 @@
     <div class="counter-box">
       <div class="number" data-target="1500">0</div>
       <!-- data-target : 1500까지 증가할거임! -->
-      <div class="label">Projects</div>
+      <div class="label">html</div>
     </div>
     <div class="counter-box">
       <div class="number" data-target="240">0</div>
-      <div class="label">Clients</div>
+      <div class="label">css</div>
     </div>
     <div class="counter-box">
       <div class="number" data-target="98">0</div>
-      <div class="label">Satisfaction %</div>
+      <div class="label">javascript</div>
     </div>
   </div>
 
@@ -121,7 +121,8 @@
           counter.innerText = target.toLocaleString();
           // 숫자가 목표에 도달했거나 넘어가면, 최종 숫자를 정확하게 표시해줍니다.
           // toLocaleString()은 1000단위로 쉼표 붙여줍니다 
-          // toLocaleString : 변수가 Number 타입일 때만 천 단위로 콤마를 찍어 문자열로 리턴하고 만일 숫자 데이터가 문자열이라면 제대로 동작하지 않는다
+          // toLocaleString : 변수가 Number 타입일 때만 천 단위로 콤마를 찍어 문자열로 리턴하고
+          // 만일 숫자 데이터가 문자열이라면 제대로 동작하지 않는다
         }
       };
 
@@ -136,7 +137,7 @@
       // 즉 요소가 화면 안에 보이는지 감시하는 도구라고 생각하면 된다.
       // IntersectionObserver는 감시 대상 요소가 화면 안에 들어오거나 화면 밖으로 나가거나할 때 자동으로 콜백 함수를 실행해요.
       // 이때 콜백 함수의 첫 번째 매개변수가 entries(엔트리스)인것이다.
-      // entries(엔트리스) => 즉 감시 중인 요소들에 변화가 생겼을 때 실행할 함수
+      // entries(엔트리스) = entries : 감시중인 요소들에게 변화가 생겼을 때 실행할 요소들을 배열로 보관하는 장소2
       // 즉 요소를 감시하다가 무슨 일이 생기면 엔트리스 함수를 실행하겠다 라는 뜻 ( 아직 관찰 대상은 정하지 않았음 ~!)
 
       // 그럼 무엇을 감시할지 counters.forEach(counter => { 안에 넣어주자!
