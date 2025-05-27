@@ -12,7 +12,7 @@
     }
 
     form {
-      max-width: 400px;
+      width: 400px;
       margin: auto;
       background: #fff;
       padding: 24px;
@@ -26,6 +26,7 @@
       margin-top: 12px;
       border: 1px solid #ccc;
       border-radius: 4px;
+      box-sizing: border-box;
     }
 
     button {
@@ -51,11 +52,12 @@
  <!-- 회원가입시키기 -->
   <form id="contact-form">
     <h2>문의하기</h2>
-    <input type="text" name="to_name" placeholder="받는사람" required />
-    <input type="text" name="from_name" placeholder="보내는사람" required />
-    <input type="text" name="title" placeholder="메일제목" required />
-    <textarea name="message" placeholder="메시지" rows="5" required></textarea>
-    <input type="submit"></input>
+    <input type="text" name="to_name" placeholder="받는사람" required>
+    <input type="text" name="from_name" placeholder="보내는사람" required>
+    <input type="text" name="title" placeholder="메일제목" required>
+    <input type="text" name="time" placeholder="현재시간입력" required>
+    <textarea name="message" rows="5" placeholder="내용입력" required></textarea>
+    <input type="submit">
   </form>
 
   <script>
@@ -66,10 +68,11 @@
     document.getElementById("contact-form").addEventListener("submit", function (e) {
       e.preventDefault(); // 폼 기본 제출 방지
 
-      emailjs.sendForm("moeunji12@gmail.com", "template_tytxqdt", this)
+      emailjs.sendForm("service_3bgfu9m", "template_a86zlva", this)
         .then(function () {
           alert("메일이 전송되었습니다!");
           document.getElementById("contact-form").reset();
+          //HTMLFormElement.reset() 메서드는 요소의 기본값을 복원합니다
         }, function (error) {
           alert("메일 전송 실패: " + error.text);
         });
