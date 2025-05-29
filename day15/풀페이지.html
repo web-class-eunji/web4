@@ -210,34 +210,39 @@
                 const rect = section.getBoundingClientRect();//각 섹션의 화면 정보 ( 위치 )
                 if(rect.top >= 0 && rect.top < window.innerHeight){
                 // rect.top : 섹션의 윗부분이 화면의 어디쯤 있는지 나타내요
-                // 0이면 화면 맨 위
                 //window.innerHeight는 화면 맨 아래 ( 화면 전체의 높이 (예: 1080px짜리 모니터라면 1080)
                 //rect.top은 그 섹션의 상단(윗부분)이 현재 화면의 어디쯤 있는지를 나타냄
                 //rect.top >= 0 이것만 보면 섹션의 상단부분이 화면 안쪽에 들어왔다는 이야기이다. 그런데 이 조건만 써주게 되면 화면 바깥에 딱 걸쳐있을 때도 포함이 된다.
                 //"이 섹션의 윗부분이 화면 위보다 아래에 있으면서,화면 아래보다 위에 있을 때만 화면에 있다고 간주하자!"
                 //완전히 또는 일부라도 보이는 상태를 말하는 거예요
-                //rect.top >= 0만 쓰면 아래로 내려간 화면 밖도 포함될 수 있어요.
-                //rect.top >= 0만 쓰면 아래로 내려간 화면 밖도 포함될 수 있어요.
-
+                // 화면의 상단이 1080보다 작다면 안쪽에 들어와 있는 것
             
                     currentSectionIndex = index;
+                    // 현재 보여지는 인덱스에 현재 돌고있는 index를 넣어준다.
                 }
             });
             isScrolling = false;
+            // isScrolling에 false를 대입해 스크롤 할 수 있도록 만든다.
             if(window.innerWidth > breakPoint && !isFullPageScrollActive){
-                isFullPageScrollActive = true; //풀페이지 활성화
+                // 브라우저의 너비가 1024보다 크고, 풀페이지 상태가 아니라면
+                isFullPageScrollActive = true; //풀페이지 활성화한다.
                 document.body.style.overflow = "hidden";
+                // 풀페이지라면 scrollBar를 없애야하니까 hidden을 넣어준다.
                 window.addEventListener("wheel",handleScroll);
+                // 윈도우에 스크롤이벤트를 걸어줄건데 휠을 내릴 때 handleScroll을 실행한다.
             } else if(window.innerWidth <= breakPoint && isFullPageScrollActive){
-                isFullPageScrollActive = false; //풀페이지 비활성화 
-                document.body.style.overflow = "auto";
+                // 브러우저의 너비가 1024보다 작거나 같고, isFullPageScrollActive가 true라면 
+                isFullPageScrollActive = false; //풀페이지 비활성화 시켜준다.
+                document.body.style.overflow = "auto"; // 다시 스크롤바 생기게 만들어줌
                 window.removeEventListener("wheel",handleScroll);
+                // 휠에 붙어있던 이벤트리스너를 삭제한다. 
             }
         }
 
         window.addEventListener("resize",initFullPageScroll);
-        initFullPageScroll();
-
+        // 브라우저의 사이즈 변경을 감지해야하기 때문에 리사이징 될때마다 
+        //initFullPageScroll초기화함수를 실행한다.
+        // initFullPageScroll();
     </script>
 </body>
 </html>
