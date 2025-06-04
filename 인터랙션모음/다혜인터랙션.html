@@ -50,7 +50,7 @@
 </head>
 
 <body>
-  <div class="text_container">
+  <div class="text_container" id="text_container">
     <div class="text_line" id="line1"></div>
     <div class="text_line" id="line2"></div>
   </div>
@@ -86,14 +86,46 @@
         // line의 자식으로 span을 넣어준다.
       });
     }
+    function playAnimation() {
+      animateLine('line1', line1Words, 0);
+      // 이 줄은 첫 번째 줄(line1) 텍스트를 애니메이션으로 보여줄 때 딜레이 없이 바로 시작하도록 설정한 것입니다.
+      // delayOffset = 0이기 때문에, 각 단어의 animation-delay는 순서(index)에만 영향을 받습니다.
+      // 예: index = 0 → 0.0s, index = 1 → 0.3s, ...
+      //line1Words에 있는 단어들은 0초부터 순차적으로 0.3초 간격으로 등장하게 됩니다.
+      animateLine('line2', line2Words, line1Words.length);
+    }
 
-    animateLine('line1', line1Words, 0);
-    // 이 줄은 첫 번째 줄(line1) 텍스트를 애니메이션으로 보여줄 때 딜레이 없이 바로 시작하도록 설정한 것입니다.
-    // delayOffset = 0이기 때문에, 각 단어의 animation-delay는 순서(index)에만 영향을 받습니다.
-    // 예: index = 0 → 0.0s, index = 1 → 0.3s, ...
-    //line1Words에 있는 단어들은 0초부터 순차적으로 0.3초 간격으로 등장하게 됩니다.
+    // 스크롤을 내렸다 올리면 다시 애니메이션이 실행되었으면 좋겠다.
+    // 그럼 글자가 쌓인다.
+    const textContainer = document.getElementById('text_container');
+    function resetAnimation() {
+      // line1, line2 비우기
+      document.getElementById('line1').innerHTML = '';
+      document.getElementById('line2').innerHTML = '';
+    }
 
-    animateLine('line2', line2Words, line1Words.length);
+
+    const observer = new IntersectionObserver((entries) => {
+      //IntersectionObserver API를 활용해서 요소가 화면(Viewport)에 보이는지 여부를 감지하는 기능
+      //이 요소가 화면에 들어왔니? 나갔니?” 를 자동으로 감지해주는 관찰자(Observer)
+      //entries는 IntersectionObserverEntry 객체의 배열
+      //즉, 관찰 대상 요소가 하나거나 여러 개인 경우 그 상태들을 배열로 넘겨주는 것.
+      entries.forEach(entry => {
+        // 동작을 감지해 entris배열에 여러개가 들어왔다면 그것을 entry로 돌거임
+        if (entry.isIntersecting) {
+          // entry.isIntersecting === true 이면 → 화면 안에 들어온 상태
+          // entry.isIntersecting === false 이면 → 화면 밖으로 나간 상태
+          playAnimation(); // 스크롤로 들어오면 애니메이션 실행
+        } else {
+          resetAnimation(); // 벗어나면 텍스트 초기화
+        }
+      });
+    }, {
+      threshold: 0.5 //요소의 절반 이상이 화면에 보여야 감지되게 설정
+    });
+
+    observer.observe(textContainer);
+    //textContainer라는 DOM 요소를 관찰 대상으로 등록합니다.
   </script>
 </body>
 
