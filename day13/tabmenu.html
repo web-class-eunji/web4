@@ -81,7 +81,9 @@
 
     <script>
         const tabs = document.querySelectorAll('.tab');
+        // 모든 탭 버튼을 선택
         const tabContnet = document.querySelectorAll('.tab_content');
+        // 모든 탭 콘텐츠를 선택
         console.log(tabs);
         console.log(tabContnet);
 
@@ -92,8 +94,10 @@
             // array : 현재 순회중인 배열 자체(선택)
             // });
             tab.addEventListener('click',() => {
+                // 모든 탭 버튼을 반복하면서 클릭 이벤트 추가
+
                 tabs.forEach(t => t.classList.remove('active'));
-                // tab.classList.remove('active');
+                // 모든 탭에서 active 제거
                 tabContnet.forEach(tc => tc.classList.remove('active'));
                 tab.classList.add('active');
                 document.getElementById('tab_' + tab.dataset.tab).classList.add('active');

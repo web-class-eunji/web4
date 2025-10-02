@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>반응형 전체 화면 슬라이드</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+        }
+
+        .slider-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .slides {
+            display: flex;
+            width: 600%; /* 복사된 첫 번째 이미지 포함 */
+            height: 100%;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            flex-shrink: 0;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 이전/다음 버튼 */
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 15px;
+            cursor: pointer;
+            font-size: 18px;
+            z-index: 10;
+        }
+
+        .prev { left: 10px; }
+        .next { right: 10px; }
+
+        /* 닷 네비게이션 */
+        .dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 15px;
+            height: 15px;
+            background: gray;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .dot.active {
+            background: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class="slider-container">
+    <div class="slides">
+        <div class="slide"><img src="./image.png" alt="음식1"></div>
+        <div class="slide"><img src="./image copy.png" alt="음식2"></div>
+        <div class="slide"><img src="./image copy 2.png" alt="음식3"></div>
+        <div class="slide"><img src="https://source.unsplash.com/featured/?food4" alt="음식4"></div>
+        <div class="slide"><img src="https://source.unsplash.com/featured/?food5" alt="음식5"></div>
+        <div class="slide"><img src="https://source.unsplash.com/featured/?food1" alt="음식1"></div> <!-- 첫 번째 이미지 복사 -->
+    </div>
+
+    <!-- 이전/다음 버튼 -->
+    <button class="prev">◀</button>
+    <button class="next">▶</button>
+
+    <!-- 닷 네비게이션 -->
+    <div class="dots">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+    </div>
+</div>
+
+<script>
+    const slides = document.querySelector('.slides');
+    const dots = document.querySelectorAll('.dot');
+    const prevBtn = document.querySelector('.prev');
+    const nextBtn = document.querySelector('.next');
+    let currentIndex = 0;
+    const totalSlides = 5; // 실제 슬라이드 개수 (복사된 6번째 슬라이드는 제외)
+    let interval;
+
+    function updateSlide(index) {
+        slides.style.transition = 'transform 0.5s ease-in-out';
+        slides.style.transform = `translateX(-${index * 100}vw)`;
+
+        // 닷 업데이트
+        dots.forEach(dot => dot.classList.remove('active'));
+        dots[index % totalSlides].classList.add('active');
+    }
+
+    function nextSlide() {
+        currentIndex++;
+        updateSlide(currentIndex);
+
+        if (currentIndex === totalSlides) {
+            setTimeout(() => {
+                slides.style.transition = 'none';
+                currentIndex = 0;
+                slides.style.transform = `translateX(0vw)`;
+            }, 500);
+        }
+    }
+
+    function prevSlide() {
+        if (currentIndex === 0) {
+            slides.style.transition = 'none';
+            currentIndex = totalSlides;
+            slides.style.transform = `translateX(-${currentIndex * 100}vw)`;
+
+            setTimeout(() => {
+                slides.style.transition = 'transform 0.5s ease-in-out';
+                currentIndex--;
+                updateSlide(currentIndex);
+            }, 10);
+        } else {
+            currentIndex--;
+            updateSlide(currentIndex);
+        }
+    }
+
+    function startAutoSlide() {
+        interval = setInterval(nextSlide, 3000);
+    }
+
+    function resetAutoSlide() {
+        clearInterval(interval);
+        startAutoSlide();
+    }
+
+    nextBtn.addEventListener('click', () => {
+        nextSlide();
+        resetAutoSlide();
+    });
+
+    prevBtn.addEventListener('click', () => {
+        prevSlide();
+        resetAutoSlide();
+    });
+
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            currentIndex = index;
+            updateSlide(currentIndex);
+            resetAutoSlide();
+        });
+    });
+
+    startAutoSlide();
+</script>
+
+</body>
+</html>
