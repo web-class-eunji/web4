@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <title>3D 카드 + PNG 오버레이</title>
+  <style>
+
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      gap: 40px;
+      perspective: 800px;
+      /* perspective : 3D 효과의 깊이(원근감)를 설정하는 CSS 속성 */
+      /* 화면에서 사용자 눈과의 거리"를 설정  */
+      /* 위치: body나 부모 요소에 선언됨 */
+      /* 자식 요소들이 transform: rotateX/rotateY 같은 3D 변형을 할 때, 어떻게 보일지를 결정 */
+      /* perspective: 100px; → 깊이감 매우 큼, 마치 가까운 물체처럼 휘어져 보임 */
+      /* perspective: 1000px; → 자연스럽고 부드러운 원근감 */
+      /* perspective: 2000px; → 거의 평면에 가까운 회전처럼 보임 */
+    }
+
+    .card {
+      position: relative;
+      width: 300px;
+      height: 450px;
+      background: url('./배경.jpg');
+      border-radius: 20px;
+      box-shadow: 0 30px 50px rgba(0, 0, 0, 0.3);
+      /* x y blur color */
+      transform-style: preserve-3d;
+      /* 기본값은 flat이다. (납작하고 평평한) */
+      /* 3D 변형 시 자식 요소들도 3D 공간에 존재하게 만들지, 평면에 "납작하게 붙일지"를 결정하는 속성 */
+      /* 자식 요소들도 3D 공간 안에서 자유롭게 움직이게 만들고 싶을 때 쓰는 설정입니다. */
+      /* 부모가 만든 3D 공간 안에서, 각자의 깊이(translateZ)를 유지 */
+      /* 즉 카드가 움직이면 자식요소들이 납작하게 보이지 않기 위해 넣어준다.*/
+      transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      /* cubic-bezier : 속도를 커스텀해준다. */
+      /* 천천히 복귀 */
+    }
+
+    .card_content {
+      /* 글씨를 조절해주는 것 */
+      position: absolute;
+      /* 부모card 를 기준으로 움직인다.*/
+      bottom: 20px;
+      left: 20px;
+      color: white;
+      z-index: 2;
+      transform: translateZ(100px);
+      /* translateX : 가로로 이동 */
+      /* translateY : 세로로 이동 */
+      /* translateX : 안쪽으로 이동 ( 깊이감을 표현 ) 검색해서 보여주기*/
+    }
+
+    .card_content h3 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .card_content p {
+      margin-top: 5px;
+      font-size: 16px;
+    }
+
+    .overlay_img {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      transform: translateZ(60px);
+      /* z-index: 3; */
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+    <div class="card_content">
+      <h3>Hover me!</h3>
+      <p>Lorem ipsum dolor sit amet.</p>
+    </div>
+    <img class="overlay_img" src="./Untitled-1.png" alt="Monkey PNG">
+  </div>
+
+  <div class="card">
+    <div class="card_content">
+      <h3>Another one</h3>
+      <p>Different background, same style</p>
+    </div>
+    <img class="overlay_img" src="./Untitled-1.png" alt="Monkey PNG">
+  </div>
+
+  <script>
+    const cards = document.querySelectorAll('.card');
+    // card 라는 클래스 가지고 있는 요소들을 다 가져옴 (노드리스트형태로)
+    console.log(cards);
+
+    cards.forEach(card => {
+      // cards의 nodelist를 돌것임. let i 같은 역할을 하는것은 card 가 될거임
+      card.addEventListener('mousemove', (e) => {
+        // card 에 이벤트리스너를 추가한다. 마우스를 움직일때 (이벤트 값을 받아올거임)
+        const rect = card.getBoundingClientRect();
+        // rect 로 card의 getBoundingClientRect를 받아온다. 
+        //getBoundingClientRect : top으로부터 / x로부터 등등 요소의 속성과 요소의 위치값을 가져올 수 있다.
+        const x = e.clientX - rect.left;
+        //rect = {top: 100,  left: 200,  width: 300,  height: 450} 
+        //즉, 이 카드 요소는 화면의 왼쪽에서 200px, 위에서 100px 떨어진 곳에 있으며, 가로 300px, 세로 450px 크기임을 나타냅니다.
+        // const x 에다가 
+        // e.clientX는 브라우저 창의 왼쪽을 기준으로 마우스의 X 좌표
+        // 즉 width가 1000짜리 브라우저에 마우스가 정 가운데 있으면 500 반환함
+        // rect.left : 카드의 시작점 즉 카드의 왼쪽끝을 의미함
+        // 카드의 왼쪽 시작 위치가 200px (rect.left = 200)
+        // 마우스가 브라우저에서 350px 위치에 있을 때 (e.clientX = 350)
+        // 카드 안에서의 x좌표는: 350 - 200 = 150px만큼 마우스가 카드에 들어와 있는 것이다.
+
+        const y = e.clientY - rect.top;
+        // 똑같은 방법으로 카드 안에 마우스가 어디에 들어와있는지 세로값도 구해준다.
+
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        //카드의 정정중앙을 기준점으로 삼기 위해 카드의 폭/높이를 2로 나눈 것.
+        //회전은 카드 중심을 기준으로 계산해야 자연스럽기 때문에
+
+
+        const rotateX = -(y - centerY) / 15;
+        //
+        const rotateY = (x - centerX) / 15;
+        //x - centerX: 마우스가 카드의 중앙에서 얼마나 오른쪽/왼쪽에 있는지를 나타냄.
+        // x(마우스의 위치)에는 200px 들어있다. center에는 카드의 중앙값이 들어있다.
+        // width가 300이라서 중앙값이 150이라고 가정해보자.
+        // rotateY = (200 - 150) / 15
+        //  = 50 / 15
+        //  ≈ 3.33
+        //rotateY(3.33deg) 이므로, 마우스가 오른쪽으로 갈수록 카드가 오른쪽으로 회전합니다
+        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        // 스타일로 transform을 넣어준다.
+      });
+
+      card.addEventListener('mouseleave', () => {
+        // cards요소 하나하나에 마우스가 떨어졌을 때  
+        card.style.transform = 'rotateX(0deg) rotateY(0deg)';
+        // transform 을 떼어준다
+      });
+    });
+  </script>
+
+</body>
+
+</html>

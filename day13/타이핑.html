@@ -19,7 +19,7 @@
             width: fit-content;
             transform: translateY(350px);
             border-right: 2px solid #fff;
-            animation: blink 1s step-end infinite;
+            animation: blink 1s linear infinite;
         }
 
         @keyframes blink {
@@ -50,10 +50,12 @@
                 charIndex++;
                 setTimeout(typing, 150);
             } else {
+                // 캐릭터 인덱스가 한 문장의 길이를 초과했다면 ( 즉 다 작성되었다면)
                 setTimeout(() => {
-                    typingElement.textContent = ""; //초기화 
-                    charIndex = 0;
+                    typingElement.textContent = ""; //빈 값을 대입하여 초기화해줌 
+                    charIndex = 0;// 늘어난 charIndex 에 다시 0 을 삽입한다.
                     //첫번째 문장 : (0 + 1) % 4 = 1 | textIndex = 1;
+                    // 0번째 문장을 실행하고 다음 문장을 진행하려고 1을 더해서 1을 4로 나눈 나머지값을 출력하면  
                     //두번째 문장 : (1 + 1) % 4 = 2 | textIndex = 2;
                     //세번째 문장 : (2 + 1) % 4 = 3 | textIndex = 3;
                     //네번째 문장 : (3 + 1) % 4 = 0 | textIndex = 0;

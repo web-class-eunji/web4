@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>지점검색</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .map_section {
+            display: flex;
+            background-color: rgb(37, 121, 73);
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            gap: 60px;
+            color: #fff;
+        }
+
+        .left>p {
+            font-size: 24px;
+        }
+
+        .left>h1 {
+            font-size: 60px;
+            margin: 0;
+        }
+
+        .right {
+            width: 300px;
+        }
+
+        .right>h2 {
+            font-size: 32px;
+            margin: 0;
+        }
+
+        .search_icon,
+        .search_icon>img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .search_icon,
+        .input {
+            margin: 0;
+            padding: 0;
+            border: none;
+            background: none;
+            outline: none;
+            color: #fff;
+        }
+
+        .input_box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #fff;
+            padding: 4px 16px;
+            margin-top: 32px;
+            border-radius: 8px;
+        }
+
+        .map {
+            border-radius: 16px;
+        }
+
+        input::placeholder {
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="map_section">
+        <div class="left">
+            <p>반짝반짝 빛나는 커피 드실텨?</p>
+            <h1>Starbucks Korea</h1>
+            <iframe class="map"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6330.853407365337!2d127.01905979357909!3d37.49785299999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca159effab6a1%3A0x2c7fcbe64938c1ad!2z7Iqk7YOA67KF7IqkIOqwleuCqFLsoJA!5e0!3m2!1sko!2skr!4v1747841868031!5m2!1sko!2skr"
+                width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+        <div class="right">
+            <h2>지점 찾기</h2>
+            <div class="input_box">
+                <input id="input_text" class="input" type="text" placeholder="지역을 입력하세요">
+                <button class="search_icon">
+                    <img src="./검색아이콘.png" alt="">
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const inputText = document.getElementById("input_text");
+        //input_text라는 ID를 가진 <input> 태그를 가져옴
+        const btn = document.querySelector(".search_icon");
+        // search_icon이라는 클래스를 가진 <button>을 가져옴 ( 돋보기 이미지 )
+
+        // 처음엔 비활성화
+        btn.disabled = true;
+        // 디세이블이라는 변수를 만든 적이 없는데 어떻게 이렇게 작성할 수 있는걸까?
+        // disabled는 우리가 따로 만든 변수가 아니라, HTML 요소(button, input 등)에 기본으로 존재하는 속성(property)이다.
+        // 즉 태그 속성을 스크립트에서 제어하고있는것
+        btn.style.opacity = 0.5; // 시각적으로도 비활성처럼 보이게 투명도를 0.5로 낮춰줌
+
+        // input 값이 변할 때마다 버튼 활성화 여부를 조절
+        // trim : 사용자가 공백만 입력하는 경우도 있습니다.
+        // 예: " " ← 눈에는 안 보이지만 값은 있음.
+        // .trim()은 입력한 문자열의 앞뒤 공백을 제거합니다.
+        // "   강남   ".trim()  ->결과: "강남"
+        // "     ".trim()      ->결과: ""
+        // 즉 진짜 텍스트가 있는지 확인 가능하다는것이다. 
+        inputText.addEventListener("input", () => {
+            //addEventListener("input" ? 
+            //글자를 입력할 때
+            // 글자를 지울 때
+            // 복사한 내용을 붙여넣기 할 때
+            // 자동완성으로 값이 채워질 때
+            // 마우스로 선택해서 바꾸는 등 인풋에 변화가 들어오면 실행된다. 
+            if (inputText.value.trim() !== "") {
+                //만약 inputText에 사용자가 입력한 value값이 비어있지 않다면 아래 코드를 실행해라!
+                // == 는 비어있다와 같다는 것이니까 !== 느낌표를 붙이면 반대로 비어있지 않다는 뜻!
+                btn.disabled = false;
+                // 만약 사용자가 인풋에 글자를 입력했다면 disabled에 false를 대입하여 비활성화를 풀어줌
+                btn.style.opacity = 1;
+                // 버튼의 투명도도 1로 높여주기
+            } else {
+                // 만약 사용자가 입력한 값이 빈값이라면
+                btn.disabled = true;
+                // 비활성화 똑같이 disabled
+                btn.style.opacity = 0.5;
+                // 오페시티도 변화 없이 똑같이 설정
+            }
+        });
+
+        btn.addEventListener("click", () => {
+            //버튼을 클릭했을 때 
+            if (inputText.value.trim() !== "") {
+                // 만약 inputText에 사용자가 입력한 value값이 비어있지 않다면 아래 코드를 실행해라!
+                input();
+                // input 함수를 실행
+            }
+        });
+
+        window.addEventListener("keyup", (e) => {
+            // 키보드가 눌렸다가 떨어졌을 때 이벤트를 만들어준다.
+            if (e.key === "Enter" && document.activeElement === inputText && inputText.value.trim() !== "") {
+                // 만약 눌렸다 떨어진 키보드가 enter이고,
+                // activeElement : 현재 사용자가 클릭했거나 키보드 커서가 깜빡이는 HTML 요소를 가리킵니다.
+                // document.activeElement는 현재 커서가 있는 요소, 즉 사용자가 선택 중인(포커스된) HTML 요소를 말한다.
+                // 그 요소가 inputText와 같은지 체크해야한다. 다른 input이 있을수도 있기 때문이다.
+                // 즉 "지금 사용자가 inputText라는 입력창(inputText)을 클릭하거나, 탭해서 선택한 상태인지?" 를 체크하는 것이다.
+                // 그리고 inputText에 사용자가 입력한 value값이 비어있지 않다면 아래 코드를 실행해라!
+                input();
+            }
+        });
+
+        function input() {
+            const query = encodeURIComponent("스타벅스 " + inputText.value.trim());
+            //encodeURIComponent() 이란?
+            // 주소창(URL)에는 특수문자나 한글을 그대로 넣을 수 없습니다.
+            // 그래서 encodeURIComponent()로 문자를 웹 주소에 맞게 인코딩해줘야 합니다.
+            // encodeURIComponent("스타벅스 강남") → "%EC%8A%A4%ED%83%80%EB%B2%85%EC%8A%A4%20%EA%B0%95%EB%82%A8"
+            window.open("https://www.google.com/maps/search/" + query + "/data=!3m1!4b1");
+        }
+    </script>
+
+</body>
+
+</html>

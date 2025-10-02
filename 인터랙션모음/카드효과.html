@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>3D Exploding Card</title>
+  <style>
+    body {
+      background: #111;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .card {
+      width: 300px;
+      height: 400px;
+      background: linear-gradient(135deg, #00feca, #007bff);
+      border-radius: 20px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+      transition: transform 0.1s ease;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .fragment {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .fragment.animate {
+      animation: explode 1s ease forwards;
+    }
+
+    @keyframes explode {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--x), var(--y)) scale(0.5);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="card"></div>
+
+  <script>
+    const card = document.getElementById('card');
+
+    // 3D 회전
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = -(y - centerY) / 15;
+      const rotateY = (x - centerX) / 15;
+      card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = `rotateX(0) rotateY(0)`;
+    });
+
+    // 폭발 이펙트
+    card.addEventListener('click', () => {
+      for (let i = 0; i < 30; i++) {
+        const frag = document.createElement('div');
+        frag.className = 'fragment';
+        frag.style.left = `${Math.random() * 100 + 100}px`;
+        frag.style.top = `${Math.random() * 100 + 150}px`;
+        frag.style.setProperty('--x', `${Math.random() * 400 - 200}px`);
+        frag.style.setProperty('--y', `${Math.random() * 400 - 200}px`);
+        card.appendChild(frag);
+
+        setTimeout(() => frag.classList.add('animate'), 0);
+
+        // Clean up after animation
+        frag.addEventListener('animationend', () => {
+          frag.remove();
+        });
+      }
+    });
+  </script>
+</body>
+</html>

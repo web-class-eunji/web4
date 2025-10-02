@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <title>텍스트 애니메이션</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: 'Helvetica Neue', sans-serif;
+      height: 10000px;
+    }
+
+    .text_container {
+      text-align: center;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    .text_line {
+      display: flex;
+      justify-content: center;
+      overflow: hidden;
+      font-size: 60px;
+    }
+
+    .word {
+      opacity: 0;
+      /* 위로 올라오면서 글씨가 보여야 하기 때문에  ( 원래는 없어야함 투명도 ) */
+      transform: translateY(100%);
+      /* 올라오는 모션이 보여야 하기 때문에 단어의 크기(몸집만큼)100% 내려주는 것 */
+      display: inline-block;
+      margin: 0 5px;
+      animation: slideUp 0.6s forwards;
+      /* forwards : 애니메이션이 끝나고 유지함 */
+    }
+
+    @keyframes slideUp {
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="text_container" id="text_container">
+    <div class="text_line" id="line1"></div>
+    <div class="text_line" id="line2"></div>
+  </div>
+
+  <script>
+    const line1Words = ["Timeless", "Spaces,"]; // 위에 넣을 글자
+    const line2Words = ["Perfected", "by", "Trust"]; // 밑에 넣을 글자
+
+    function animateLine(lineId, words, delayOffset) {
+      // 함수를 만들건데 매개변수를 3개 받을거임 (몇번째라인인지, 단어들(배열로 넣을거임임), 지속시간)
+      const line = document.getElementById(lineId);
+      // 매개변수로 받아온 몇번째 라인인지를 line에다가 넣어준다. 
+      words.forEach((word, index) => {
+        // words로 받아온 매개변수(배열이 들어갈것)를 반복할건데 각각의 단어를 word라고 칭할것이고 순서를 index로 접근할것이다.
+        const span = document.createElement('span');
+        // span이라는 상수에 span태그를 만들어준다.
+        span.className = 'word';
+        // word단어를 넣어줄 span에 word 라는 클래스를 추가한다.
+        span.textContent = word;
+        // span.word 즉 word라는 클래스를 가진 span에다가 textContent 속성을 통해 words를 돌고있는 word를 넣어준다.
+        span.style.animationDelay = `${(index + delayOffset) * 0.3}s`;
+        // span 의 스타일 에니메이션 딜레이를 index(몇번째 단어인지) + 매개변수로 받아온 숫자 * 3 해준다.
+        // index: 현재 단어의 순서 (0부터 시작)
+        // delayOffset: 이전 줄의 단어 개수를 기준으로 얼마나 더 늦게 시작할지 설정하는 값
+        // 0.3: 애니메이션 간격을 0.3초로 설정
+        // 첫번째 단어의 인덱스는 0이고, 딜레이 옵셋도 0이다. 즉 0 * 0.3 = 0이다. 
+        // 두번째 단어의 인덱스는 1이고, 딜레이 옵셋은 1이다. 즉(1+0) * 0.3 = 0.3 이 되는 것
+        // 다음 줄의 첫번째 단어의 인덱스는 0이고 딜레이 옵셋은 첫번째 배열의 개수이기 때문에 2개이다.
+        // 즉 (0 + 2) * 0.3 = 0.6 이다.
+        // 두번째줄의 두번째 by의 인덱스는 1이고 딜레이옵셋은 2 / (1 + 2) * 0.3 = 0.9s 딜레이됨
+        // 두번째줄 세번째 단어의 인덱스 번호는 2이고, 옵셋은 2니까 (2 + 2) * 0.3 = 1.2s 딜레이 
+        line.appendChild(span);
+        // line의 자식으로 span을 넣어준다.
+      });
+    }
+    function playAnimation() {
+      animateLine('line1', line1Words, 0);
+      // 이 줄은 첫 번째 줄(line1) 텍스트를 애니메이션으로 보여줄 때 딜레이 없이 바로 시작하도록 설정한 것입니다.
+      // delayOffset = 0이기 때문에, 각 단어의 animation-delay는 순서(index)에만 영향을 받습니다.
+      // 예: index = 0 → 0.0s, index = 1 → 0.3s, ...
+      //line1Words에 있는 단어들은 0초부터 순차적으로 0.3초 간격으로 등장하게 됩니다.
+      animateLine('line2', line2Words, line1Words.length);
+    }
+
+    // 스크롤을 내렸다 올리면 다시 애니메이션이 실행되었으면 좋겠다.
+    // 그럼 글자가 쌓인다.
+    const textContainer = document.getElementById('text_container');
+    function resetAnimation() {
+      // line1, line2 비우기
+      document.getElementById('line1').innerHTML = '';
+      document.getElementById('line2').innerHTML = '';
+    }
+
+
+    const observer = new IntersectionObserver((entries) => {
+      //IntersectionObserver API를 활용해서 요소가 화면(Viewport)에 보이는지 여부를 감지하는 기능
+      //이 요소가 화면에 들어왔니? 나갔니?” 를 자동으로 감지해주는 관찰자(Observer)
+      //entries는 IntersectionObserverEntry 객체의 배열
+      //즉, 관찰 대상 요소가 하나거나 여러 개인 경우 그 상태들을 배열로 넘겨주는 것.
+      entries.forEach(entry => {
+        // 동작을 감지해 entris배열에 여러개가 들어왔다면 그것을 entry로 돌거임
+        if (entry.isIntersecting) {
+          // entry.isIntersecting === true 이면 → 화면 안에 들어온 상태
+          // entry.isIntersecting === false 이면 → 화면 밖으로 나간 상태
+          playAnimation(); // 스크롤로 들어오면 애니메이션 실행
+        } else {
+          resetAnimation(); // 벗어나면 텍스트 초기화
+        }
+      });
+    }, {
+      threshold: 0.5 //요소의 절반 이상이 화면에 보여야 감지되게 설정
+    });
+
+    observer.observe(textContainer);
+    //textContainer라는 DOM 요소를 관찰 대상으로 등록합니다.
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Repeatable Count Up</title>
+  <style>
+    body {
+      height: 2000px;
+      margin: 0;
+      font-family: sans-serif;
+      background: #111;
+      color: #fff;
+    }
+
+    .counter-section {
+      margin-top: 100vh;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      padding: 80px 0;
+    }
+
+    .counter-box {
+      text-align: center;
+    }
+
+    /* .counter-box:nth-child(1){
+      margin-top: 1200px;
+    }
+    .counter-box:nth-child(2){
+      margin-top: 3000px;
+    }
+    .counter-box:nth-child(3){
+      margin-top: 5000px;
+    } */
+
+    .number {
+      font-size: 60px;
+      color: #00f2ff;
+    }
+
+    .label {
+      margin-top: 10px;
+      font-size: 18px;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="counter-section">
+    <div class="counter-box">
+      <div class="number" data-target="1500">0</div>
+      <!-- data-target : 1500까지 증가할거임! -->
+      <div class="label">html</div>
+    </div>
+    <div class="counter-box">
+      <div class="number" data-target="240">0</div>
+      <div class="label">css</div>
+    </div>
+    <div class="counter-box">
+      <div class="number" data-target="98">0</div>
+      <div class="label">javascript</div>
+    </div>
+  </div>
+
+  <script>
+    const counters = document.querySelectorAll('.number');
+    // 증가할 0이 들어있는 div를 가져옴 
+
+    function animateCounter(counter) {
+      counter.innerText = '0';
+      // 매개변수로 받아온 counter에 0을 넣어줌 ( 시작 숫자는 0이 될것임 )
+      const target = +counter.getAttribute('data-target');
+      // 맨 밑에 counters forEach 먼저 만들고 오기!!!!!!!!!!!!!!!!!!!!!!
+      // getAttribute('data-target') 는 문자열을 반환한다 즉 1500이 data-target에 들어있다면 "1500" 이 되는것
+      // 숫자처럼 보여도 사실은 "1500"이라는 문자열이다.
+      // 숫자로 계산하려면 문자열을 숫자 타입(number) 으로 바꿔야 한다
+      // 바꾸는 방법은 Number("1500") / parseInt("1500") → 1500 정수로 바꾸기(파싱인트) / +"1500" → 1500 
+      // +"1500" → 1500이 가장 빠르고 쉬운 방법이다.
+      // 맨 밑에서  counters를 도는 let i 역할을 하는 counter의 속성인 'data-target'을 가져와서 숫자로 변경하는것이다.
+      // 여기서의 target은 단순히!!!!!! 숫자값을 담고 있는 변수입니다
+      // 증가를 쉽게 100등분 하기 위해 숫자로 변환한것 뿐
+      
+      let current = 0; // 현재 숫자 초기화
+
+      const update = () => {
+        //const update = () => { ... } update라는 즉시실행함수(화살표함수)를 생성함
+        const increment = target / 100;
+        // increment(인크리먼트 : 증가) : 한번에 얼마나 많은 숫자를 증가시킬지 정하는 부분이다.
+        // 위에서 data-target으로 가져온 타겟을 100등분한 값을 넣어줌
+        // 예: target = 1500이면 increment = 15
+        // 그러면 15씩 100번 더하면 1500에 도달하겠죠?
+        // 동일 선상에 있는 숫자라면 똑같이 15등분 하여 증가하기 때문에 같은 시간에 끝날것이다!
+        if (current < target) {
+          // current는 0이다.
+          // 0이 target보다 작을때만 if문이 실행된다.
+          current += increment;
+          // 0인 커런트에 increment(target을 100등분한 값을 넣어준 상수)를 계속 더해준다.
+          // current = 0 → 15 → 30 → 45 이런식으로 숫자가 점점 커지게 될것이다
+          counter.innerText = Math.ceil(current);
+          // 현재 숫자를 올림해서 정수로 표시합니다.
+          // current = 24.2 → 25
+          // 소수점 없이 자연수로 보여주기 위함입니다
+          requestAnimationFrame(update);
+          // requestAnimationFrame(리퀘스트 에니메이션 프레임)
+          // 자바스크립트의 내장 함수로, 브라우저가 다음 화면을 그릴 때 이 함수를 다시 실행해준다.
+          // 즉 애니메이션을 부드럽게 만드는 함수
+          // 만화 필름이 한 장씩 넘어가며 그림이 바뀌면 움직이는 것처럼 보이죠?
+          // 웹 브라우저도 화면을 1초에 60번 정도 그려요 (즉, 60fps — frames per second)
+          // requestAnimationFrame 함수는 “다음 화면 그릴 때 이 코드를 실행해줘”라고 예약하는 거예요.
+
+          // 어떻게 동작하는 걸까?
+          // update() 실행 → 숫자 0 → 15
+          // requestAnimationFrame(update) 실행됨 → "다음 프레임에 또 update() 실행할게"
+          // 브라우저가 다음 화면 그릴 때 update() 실행됨 → 숫자 15 → 30
+          // 또 requestAnimationFrame(update) 실행됨
+
+        } else {
+          // current의 값이 커져서 target보다 크다면 else를 실행한다.
+          counter.innerText = target.toLocaleString();
+          // 숫자가 목표에 도달했거나 넘어가면, 최종 숫자를 정확하게 표시해줍니다.
+          // toLocaleString()은 1000단위로 쉼표 붙여줍니다 
+          // toLocaleString : 변수가 Number 타입일 때만 천 단위로 콤마를 찍어 문자열로 리턴하고
+          // 만일 숫자 데이터가 문자열이라면 제대로 동작하지 않는다
+        }
+      };
+
+      update();
+      // update 함수를 처음 실행합니다. ( 처음 스타트를 끊어주는거임 ) 위에서는 만들기만 하고 실행을 안 해주었음
+      // 이후에는 requestAnimationFrame(update)에 의해 반복 호출됩니다.
+    }
+
+    const observer = new IntersectionObserver(entries => {
+      // IntersectionObserver : 인터섹션옵저버
+      // IntersectionObserver는 뷰포트(Viewport)나 특정 부모 요소를 기준으로, 대상 요소가 나타날 때 콜백 함수를 호출하는 API이다.
+      // 즉 요소가 화면 안에 보이는지 감시하는 도구라고 생각하면 된다.
+      // IntersectionObserver는 감시 대상 요소가 화면 안에 들어오거나 화면 밖으로 나가거나할 때 자동으로 콜백 함수를 실행해요.
+      // 이때 콜백 함수의 첫 번째 매개변수가 entries(엔트리스)인것이다.
+      // entries(엔트리스) = entries : 감시중인 요소들에게 변화가 생겼을 때 실행할 요소들을 배열로 보관하는 장소2
+      // 즉 요소를 감시하다가 무슨 일이 생기면 엔트리스 함수를 실행하겠다 라는 뜻 ( 아직 관찰 대상은 정하지 않았음 ~!)
+
+      // 그럼 무엇을 감시할지 counters.forEach(counter => { 안에 넣어주자!
+
+      entries.forEach(entry => {
+        // observer.observe(counter)로 ( .number 가 들어있는 div를 )감시중에 
+        // .number 요소 3개 중 일부가 새로 화면에 들어오거나, 화면 밖으로 나가게 되면
+        // entries는 변화를 감지하고 변화가 생긴 요소들을 배열로 보관한다.
+        // 그런 요소들이 entry 객체로 들어갑니다.
+        if (entry.isIntersecting) {
+          // entry.isIntersecting은 감시 중인 요소가 화면(Viewport)에 지금 보이는가?를 true 또는 false로 알려줌
+          // 즉 요소가 화면 안에 보인다면 true / 안 보이면 false 를 반환할것이다.
+          animateCounter(entry.target);
+          // 즉 요소의 움직임을 감시하고, 요소가 움직여서 화면에 보여서 true 가 들어왔다면
+          // 숫자가 증가하는 함수를 실행할건데 변화한 객체(entry 즉 div의 ) target을 매개변수로 넘긴다.
+          // animateCounter() 함수는 어떤 .number 요소를 증가시킬지 알아야 한다.
+        }
+      });
+    }, {
+      threshold: 0.6,
+      //요소가 화면에 얼마나 보여야 콜백을 실행할지 정하는 값
+      //threshold: 0.6 → 60% 이상 보이면 콜백 함수 실행
+      //.number 요소 하나가 화면에 절반만 보인다면? 실행 안 됨
+      //숫자 애니메이션이 너무 빨리 실행되지 않도록 조절하기 위해서
+      //페이지를 스크롤 살짝만 해도 실행되면 사용자 입장에선 숫자가 너무 빨리 움직여서 의미가 희미해질 수 있어요.
+    });
+
+    counters.forEach(counter => {
+      //counters는 .number 클래스를 가진 모든 요소를 가져온다.
+      //결과는 NodeList(노드 리스트) 이고, 배열처럼 여러 개의 요소를 담고 있습니다.
+      //forEach는 counters 안에 있는 각 요소를 하나씩 꺼낸다.
+      //그리고 counter라는 매개변수로 하나씩 전달한다.
+      //즉 counter는 div요소 하나라고 생각하면 됨 
+      observer.observe(counter);
+      // observer를 실행해서 감시를 시작할거임 observe(무엇을 감시할지)
+      // counter 즉 .number 를 가진 div를 하나하나 감시할것이라는 뜻
+      // .number 요소 3개 중 일부가 새로 화면에 들어오거나, 화면 밖으로 나가게 되면
+      // entries는 변화를 감지하고 배열로 변화가 생긴 요소들을 보관한다.
+      //  그런 요소들이 entry 객체로 들어갑니다.
+      
+    });
+  </script>
+
+</body>
+</html>

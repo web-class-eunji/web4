@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Carousel with Dots & Infinite Loop</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: #111;
+      color: #fff;
+    }
+
+    .carousel-container {
+      max-width: 1000px;
+      margin: 50px auto;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .carousel-slide {
+      flex: 0 0 33.3333%;
+      padding: 10px;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      display: block;
+      border-radius: 10px;
+    }
+
+    .carousel-buttons {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      padding: 0 20px;
+      z-index: 1;
+    }
+
+    .carousel-buttons button {
+      background: rgba(0, 0, 0, 0.6);
+      border: none;
+      color: white;
+      font-size: 30px;
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 50%;
+    }
+
+    .carousel-dots {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .carousel-dots button {
+      background: #444;
+      border: none;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .carousel-dots button.active {
+      background: #00f2ff;
+    }
+
+    /* 반응형 설정 */
+    @media (max-width: 1023px) {
+      .carousel-slide { flex: 0 0 50%; }
+    }
+
+    @media (max-width: 767px) {
+      .carousel-slide { flex: 0 0 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="carousel-container">
+    <div class="carousel-track" id="carousel-track">
+      <!-- 슬라이드 복제용: 나중에 JS에서 자동 생성 -->
+    </div>
+
+    <div class="carousel-buttons">
+      <button id="prevBtn">&#10094;</button>
+      <button id="nextBtn">&#10095;</button>
+    </div>
+  </div>
+
+  <div class="carousel-dots" id="carousel-dots"></div>
+
+  <script>
+    const track = document.getElementById('carousel-track');
+    const dotsContainer = document.getElementById('carousel-dots');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    // 슬라이드 이미지 목록
+    const imageList = [
+      "https://picsum.photos/id/1015/800/500",
+      "https://picsum.photos/id/1016/800/500",
+      "https://picsum.photos/id/1018/800/500",
+      "https://picsum.photos/id/1019/800/500",
+      "https://picsum.photos/id/1020/800/500"
+    ];
+
+    let slideCount = imageList.length;
+    let currentIndex = 0;
+    let visibleCount = getVisibleCount();
+
+    // 슬라이드 복제 생성
+    function renderSlides() {
+      track.innerHTML = '';
+      // 앞뒤 복제용 (무한 루프)
+      const totalSlides = [...imageList.slice(-visibleCount), ...imageList, ...imageList.slice(0, visibleCount)];
+      totalSlides.forEach(src => {
+        const slide = document.createElement('div');
+        slide.className = 'carousel-slide';
+        slide.innerHTML = `<img src="${src}" alt="">`;
+        track.appendChild(slide);
+      });
+    }
+
+    // 도트 버튼 생성
+    function renderDots() {
+      dotsContainer.innerHTML = '';
+      for (let i = 0; i < slideCount; i++) {
+        const dot = document.createElement('button');
+        if (i === 0) dot.classList.add('active');
+        dot.dataset.index = i;
+        dot.addEventListener('click', () => {
+          goToSlide(i);
+        });
+        dotsContainer.appendChild(dot);
+      }
+    }
+
+    // 현재 뷰 개수 계산
+    function getVisibleCount() {
+      if (window.innerWidth < 768) return 1;
+      else if (window.innerWidth < 1024) return 2;
+      else return 3;
+    }
+
+    // 캐러셀 위치 업데이트
+    function updateCarousel(instant = false) {
+      const slideWidth = track.children[0].getBoundingClientRect().width;
+      const offset = (currentIndex + visibleCount) * slideWidth;
+      track.style.transition = instant ? "none" : "transform 0.5s ease-in-out";
+      track.style.transform = `translateX(-${offset}px)`;
+
+      // 도트 업데이트
+      const dots = dotsContainer.querySelectorAll('button');
+      dots.forEach(dot => dot.classList.remove('active'));
+      if (dots[currentIndex]) dots[currentIndex].classList.add('active');
+    }
+
+    // 슬라이드 전환
+    function goToSlide(index) {
+      currentIndex = index;
+      updateCarousel();
+    }
+
+    function moveToNext() {
+      currentIndex++;
+      updateCarousel();
+      if (currentIndex >= slideCount) {
+        setTimeout(() => {
+          currentIndex = 0;
+          updateCarousel(true);
+        }, 500);
+      }
+    }
+
+    function moveToPrev() {
+      currentIndex--;
+      updateCarousel();
+      if (currentIndex < 0) {
+        setTimeout(() => {
+          currentIndex = slideCount - 1;
+          updateCarousel(true);
+        }, 500);
+      }
+    }
+
+    // 자동 슬라이드
+    let autoSlide = setInterval(moveToNext, 3000);
+
+    // 버튼 이벤트
+    nextBtn.addEventListener('click', () => {
+      moveToNext();
+      resetAuto();
+    });
+
+    prevBtn.addEventListener('click', () => {
+      moveToPrev();
+      resetAuto();
+    });
+
+    function resetAuto() {
+      clearInterval(autoSlide);
+      autoSlide = setInterval(moveToNext, 3000);
+    }
+
+    // 초기 렌더
+    function initCarousel() {
+      visibleCount = getVisibleCount();
+      renderSlides();
+      renderDots();
+      currentIndex = 0;
+      updateCarousel(true);
+    }
+
+    window.addEventListener('resize', () => {
+      initCarousel();
+    });
+
+    initCarousel();
+  </script>
+
+</body>
+</html>

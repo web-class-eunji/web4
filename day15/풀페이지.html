@@ -120,17 +120,16 @@
     </ul>
 
     <script>
-        let currentSectionIndex = 0;// 현재 섹션 인덱스
+        let currentSectionIndex = 0;// 지금 보고 있는 섹션 번호
         const sections = document.querySelectorAll(".section");
         const menuItems = document.querySelectorAll(".menu_item");
         const totalSections = sections.length;
         let isScrolling = false; // 스크롤중인지 여부를 나타내는 변수
         let isFullPageScrollActive = false; // 현재 풀페이지 스크롤이 활성화 상태인지 확인
-        const breakPoint = 1024;
-
+        const breakPoint = 1024; 
         //-----------------------------------------------------
-        // 메뉴 색 상태 업데이트
-
+        // 메뉴 색 상태 업데이트 ( 현재 보고 있는 섹션에 맞게 오른쪽 메뉴 색 바꾸는 함수)
+        
         function updateMenu(){
             menuItems.forEach((item, index)=>{
                 if(index === currentSectionIndex){
@@ -140,9 +139,12 @@
                 }
             });
         }
-
+        
+        updateMenu()
         //-----------------------------------------------------
         // 메뉴 클릭이벤트
+        // 메뉴 클릭하면 몇번째 인덱스인지 dataset으로 확인하여 해당 섹션으로 부드럽게 이동
+        //메뉴 색상도 같이 바꿈
 
         menuItems.forEach((item) => {
             item.addEventListener("click",(e) => {
@@ -165,19 +167,32 @@
 
         function handleScroll(event){
             if(window.innerWidth <= breakPoint) return;
+            //window.innerWidth:브라우저 창의 현재 너비가 1024보다 작다면  return 을 통해 함수실행을 중단하고 아무런 작업도 하지 않는다.
+
             if(isScrolling) return;
             isScrolling = true; // isScrolling = true
+            //처음엔 isScrolling이 false로 설정해놓았다 즉 스크롤중이 아니다. return은 true일 경우에 작동된다. 
+            //즉 스크롤을 시작하면 false니까 밑에있는 true가 작동할거고 true가 된 상태에서 다시 스크롤을 하려고 하면 동작하지 않는 것이다
+            //isScrolling이 true 라면 스크롤은 return을 통해 중단한다. 스크롤이 끝난 후에야 새로운 스크롤을 허용하려고 이 코드를 작성하는 것
             
             if(event.deltaY > 0){
+                //event.deltaY : 마우스 휠이 얼마나 회전했는지 스크롤의 방향과 속도를 나타낸다.
                 // event.deltaY : 밑으로 스크롤하면 양수, 위로 올려서 문서를 위로 올릴 시엔 음수를 반환
+                // deltaY > 0 : 밑으로 스크롤 했다면 이라는 뜻
                 //마지막 섹션에 대한 예외처리
                 currentSectionIndex = Math.min(currentSectionIndex + 1, totalSections -1);
                 //Math.min() : 최소값을 반환하는 함수
                 //currentSectionIndex + 1 :현재인덱스 + 1 (다음인덱스)
+                //totalSections - 1 : sections의 개수(8) - 1 : 즉 7
+                // 즉 현재인덱스 +1 한것과 7 중에 더 작은 값을 반환한다.
+                // 이유는 인덱스가 섹션의 총 개수를 초과하지 않도록 제어하는 것이다. 예를들어 마지막 섹션인 7번 인덱스에서 스크롤을 더 내리더라도 currentSectionIndex인덱스는 7이상으로 증가하지 않게 하기 위해서
+                // 총 개수-1인 7과 비교하고 있으니까 7보다 작으면 currentSectionIndex + 1인 숫자가 currentSectionIndex에 대입될 것이고 7보다 커지면 totalSections - 1인 7이 대입되는것이다.
             }else{
+                ////deltaY < 0 으로 0보다 작은 음수가 출력되었다면~ 즉 위로 스크롤 했다면~
                 currentSectionIndex = Math.max(currentSectionIndex-1,0);
                 //Math.max() : 최대값을 반환하는 함수
                 //첫번째 섹션에 대한 예외처리
+                //currentSectionIndex에 현재 인덱스 -1과 0 중에 더 큰 수를 currentSectionIndex에 넣는다. 즉 3-1 이어서 2가 된다면 2를 currentSectionIndex에 대입한다. 0-1 해서 -1이 되었다면 0이 더 크니까 0을 넣는다.
             }
             sections[currentSectionIndex].scrollIntoView({
                 behavior:"smooth",
@@ -191,26 +206,43 @@
         // 초기화함수
         function initFullPageScroll(){
             sections.forEach((section,index) => {
-                const rect = section.getBoundingClientRect();//각 섹션의 화면 정보
+                 // 모든 섹션이 들어있는 배열을 section이라는 아이템으로 접근한다
+                const rect = section.getBoundingClientRect();//각 섹션의 화면 정보 ( 위치 )
                 if(rect.top >= 0 && rect.top < window.innerHeight){
+                // rect.top : 섹션의 윗부분이 화면의 어디쯤 있는지 나타내요
+                //window.innerHeight는 화면 맨 아래 ( 화면 전체의 높이 (예: 1080px짜리 모니터라면 1080)
+                //rect.top은 그 섹션의 상단(윗부분)이 현재 화면의 어디쯤 있는지를 나타냄
+                //rect.top >= 0 이것만 보면 섹션의 상단부분이 화면 안쪽에 들어왔다는 이야기이다. 그런데 이 조건만 써주게 되면 화면 바깥에 딱 걸쳐있을 때도 포함이 된다.
+                //"이 섹션의 윗부분이 화면 위보다 아래에 있으면서,화면 아래보다 위에 있을 때만 화면에 있다고 간주하자!"
+                //완전히 또는 일부라도 보이는 상태를 말하는 거예요
+                // 화면의 상단이 1080보다 작다면 안쪽에 들어와 있는 것
+            
                     currentSectionIndex = index;
+                    // 현재 보여지는 인덱스에 현재 돌고있는 index를 넣어준다.
                 }
             });
             isScrolling = false;
+            // isScrolling에 false를 대입해 스크롤 할 수 있도록 만든다.
             if(window.innerWidth > breakPoint && !isFullPageScrollActive){
-                isFullPageScrollActive = true; //풀페이지 활성화
+                // 브라우저의 너비가 1024보다 크고, 풀페이지 상태가 아니라면
+                isFullPageScrollActive = true; //풀페이지 활성화한다.
                 document.body.style.overflow = "hidden";
+                // 풀페이지라면 scrollBar를 없애야하니까 hidden을 넣어준다.
                 window.addEventListener("wheel",handleScroll);
+                // 윈도우에 스크롤이벤트를 걸어줄건데 휠을 내릴 때 handleScroll을 실행한다.
             } else if(window.innerWidth <= breakPoint && isFullPageScrollActive){
-                isFullPageScrollActive = false; //풀페이지 비활성화 
-                document.body.style.overflow = "auto";
+                // 브러우저의 너비가 1024보다 작거나 같고, isFullPageScrollActive가 true라면 
+                isFullPageScrollActive = false; //풀페이지 비활성화 시켜준다.
+                document.body.style.overflow = "auto"; // 다시 스크롤바 생기게 만들어줌
                 window.removeEventListener("wheel",handleScroll);
+                // 휠에 붙어있던 이벤트리스너를 삭제한다. 
             }
         }
 
         window.addEventListener("resize",initFullPageScroll);
-        initFullPageScroll();
-
+        // 브라우저의 사이즈 변경을 감지해야하기 때문에 리사이징 될때마다 
+        //initFullPageScroll초기화함수를 실행한다.
+        // initFullPageScroll();
     </script>
 </body>
 </html>

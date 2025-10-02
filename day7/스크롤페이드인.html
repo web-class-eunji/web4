@@ -54,12 +54,29 @@
             transform: none;
             opacity: 1;
         }
+
+        .box {
+            display: flex;
+        }
+
+        .delay:nth-child(2) {
+            transition-delay: 0.2s;
+        }
+        .delay:nth-child(3) {
+            transition-delay: 0.5s;
+        }
+        
     </style>
 </head>
 <body>
     <div class="content_container">
         <h2 class="content fade to_top">안녕하세요</h2>
         <h2 class="content fade to_bottom">저는 모은지이며</h2>
+        <div class="box">
+            <p class="content fade to_bottom delay">가</p>    
+            <p class="content fade to_bottom delay">나</p>    
+            <p class="content fade to_bottom delay">다</p>    
+        </div>
         <h2 class="content fade to_left">여자입니다</h2>
         <h2 class="content fade to_right">저는 **살 입니다</h2>
         <h2 class="content fade to_right_bottom">감사합니다</h2>
